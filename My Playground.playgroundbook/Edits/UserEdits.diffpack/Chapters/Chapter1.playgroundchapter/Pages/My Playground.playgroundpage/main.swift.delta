@@ -6,70 +6,60 @@
 	<array>
 		<dict>
 			<key>ModifiedContent</key>
-			<string>enum Sizes: Comparable {
-    case small
-    case medium
-    case large
+			<string>enum Weather {
+    case sun, rain, wind, snow, unknown
 }
 
-let first = Sizes.small
-let second = Sizes.large
-print(first &lt; second)
-//that'll return true bc small comes before large in the enum case list.
+var forecast = Weather.sun
 
-let age = 16
-if age &gt;= 18 {
-    print("You can vote in the next election")
-} else {
-    print("Sorry, you're too young to vote.")
+switch forecast {
+case .sun:
+    print("It should be a nice day")
+case .rain:
+    print("Psck an umbrella")
+case .wind:
+    print("Wear something warm")
+case .snow:
+    print("School is cancelled")
+case .unknown:
+    print("Our forecast generator is broken!")
 }
 
-let a = false
-let b = true
+let place = "Metropolis"
 
-if a {
-    print("Code to run if a is true")
-} else if b {
-    print("Code to run if a is false but b is true")
-} else {
-    print("Code to run if both a and b are false")
+switch place {
+case "Gotham":
+    print("You're Batman!")
+case "Mega-City One":
+    print("You're Judge Dredd!")
+default:
+    print("Who are you?")
 }
 
-let temp = 25
+//if you explicitly want Swift to carry on executing cases after the first one matched you can do that by saying fallthrough
 
-if temp &gt; 20 &amp;&amp; temp &lt; 30 {
-        print("It's a nice day")
-}
+let day = 5
+print("My true love gave to me..")
 
-let userAge = 14
-let hasParentalConsent = true
-
-if userAge &gt;= 18 || hasParentalConsent {
-    print("You can buy the game")
-}
-
-enum Transportation {
-    case airplane
-    case helicopter
-    case bicycle
-    case car
-    case scooter
-}
-
-let transport = Transportation.airplane
-
-if transport == .airplane || transport == .helicopter {
-    print("Let's fly!")
-} else if transport == .bicycle {
-    print("I hope there's a bike path…")
-} else if transport == .car {
-    print("Time to get stuck in traffic.")
-} else {
-    print("I'm going to hire a scooter now!")
+switch day {
+case 5:
+    print("5 golden rings")
+    fallthrough
+case 4:
+    print("4 calling birds")
+    fallthrough
+case 3:
+    print("3 french hens")
+    fallthrough
+case 2:
+    print("2 turtle doves")
+    fallthrough
+default:
+    print("A partridge in a pear tree") 
 }
 </string>
 			<key>ModifiedRange</key>
-			<string>{0, 1196}</string>
+			<string>{0, 973}</string>
 			<key>OriginalContent</key>
 			<string></string>
 			<key>OriginalRange</key>
