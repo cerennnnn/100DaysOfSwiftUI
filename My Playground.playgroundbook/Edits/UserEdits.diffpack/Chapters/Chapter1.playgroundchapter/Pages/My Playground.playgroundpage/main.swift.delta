@@ -6,16 +6,65 @@
 	<array>
 		<dict>
 			<key>ModifiedContent</key>
-			<string>//checkpoint - 2
-var arrayOfStrings = [String]()
-arrayOfStrings = ["One", "Two", "Three", "Four", "Four"]
-print(arrayOfStrings.count)
-var setOfArryOfStrings = Set(arrayOfStrings)
-print(setOfArryOfStrings)
-setOfArryOfStrings.count
+			<string>let score = 85
+
+if score &gt; 80 {
+    print("Great job!")
+}
+
+let speed = 88
+let percentage = 85
+let age = 18
+
+if speed &gt;= 88 {
+    print("Where we're going we don't need roads.")
+}
+
+if percentage &lt; 85 {
+    print("Sorry, you failed the test.")
+}
+
+if age &gt;= 18 {
+    print("You're eligible to vote.")
+}
+
+//&lt;, &gt;= operators work great with strings
+
+let ourName = "Dave Lister"
+let friendName = "Arnold Rimmer"
+
+if ourName &lt; friendName {
+    print("It's \(ourName) vs \(friendName)")
+}
+
+if ourName &gt; friendName {
+    print("It's \(friendName) vs \(ourName)")
+}
+
+var numbers = [1, 2, 3]
+numbers.append(4)
+
+if numbers.count &gt; 3 {
+    numbers.remove(at: 0)
+}
+print(numbers)
+
+var name = ""
+
+if name == "" { // or name.count == 0 
+    name = "Anonymous"
+}
+print(name)
+
+//isEmpty returns true if the thing you're checking has nothing inside 
+
+name = "Chan"
+if !name.isEmpty {
+    print("Hey \(name)")
+}
 </string>
 			<key>ModifiedRange</key>
-			<string>{0, 230}</string>
+			<string>{0, 891}</string>
 			<key>OriginalContent</key>
 			<string>
 </string>
