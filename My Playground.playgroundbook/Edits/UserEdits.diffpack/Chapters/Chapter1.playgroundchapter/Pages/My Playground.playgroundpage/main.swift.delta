@@ -6,70 +6,74 @@
 	<array>
 		<dict>
 			<key>ModifiedContent</key>
-			<string>let score = 85
-
-if score &gt; 80 {
-    print("Great job!")
+			<string>enum Sizes: Comparable {
+    case small
+    case medium
+    case large
 }
 
-let speed = 88
-let percentage = 85
-let age = 18
+let first = Sizes.small
+let second = Sizes.large
+print(first &lt; second)
+//that'll return true bc small comes before large in the enum case list.
 
-if speed &gt;= 88 {
-    print("Where we're going we don't need roads.")
-}
-
-if percentage &lt; 85 {
-    print("Sorry, you failed the test.")
-}
-
+let age = 16
 if age &gt;= 18 {
-    print("You're eligible to vote.")
+    print("You can vote in the next election")
+} else {
+    print("Sorry, you're too young to vote.")
 }
 
-//&lt;, &gt;= operators work great with strings
+let a = false
+let b = true
 
-let ourName = "Dave Lister"
-let friendName = "Arnold Rimmer"
-
-if ourName &lt; friendName {
-    print("It's \(ourName) vs \(friendName)")
+if a {
+    print("Code to run if a is true")
+} else if b {
+    print("Code to run if a is false but b is true")
+} else {
+    print("Code to run if both a and b are false")
 }
 
-if ourName &gt; friendName {
-    print("It's \(friendName) vs \(ourName)")
+let temp = 25
+
+if temp &gt; 20 &amp;&amp; temp &lt; 30 {
+        print("It's a nice day")
 }
 
-var numbers = [1, 2, 3]
-numbers.append(4)
+let userAge = 14
+let hasParentalConsent = true
 
-if numbers.count &gt; 3 {
-    numbers.remove(at: 0)
+if userAge &gt;= 18 || hasParentalConsent {
+    print("You can buy the game")
 }
-print(numbers)
 
-var name = ""
-
-if name == "" { // or name.count == 0 
-    name = "Anonymous"
+enum Transportation {
+    case airplane
+    case helicopter
+    case bicycle
+    case car
+    case scooter
 }
-print(name)
 
-//isEmpty returns true if the thing you're checking has nothing inside 
+let transport = Transportation.airplane
 
-name = "Chan"
-if !name.isEmpty {
-    print("Hey \(name)")
+if transport == .airplane || transport == .helicopter {
+    print("Let's fly!")
+} else if transport == .bicycle {
+    print("I hope there's a bike path…")
+} else if transport == .car {
+    print("Time to get stuck in traffic.")
+} else {
+    print("I'm going to hire a scooter now!")
 }
 </string>
 			<key>ModifiedRange</key>
-			<string>{0, 891}</string>
+			<string>{0, 1196}</string>
 			<key>OriginalContent</key>
-			<string>
-</string>
+			<string></string>
 			<key>OriginalRange</key>
-			<string>{0, 1}</string>
+			<string>{0, 0}</string>
 		</dict>
 	</array>
 	<key>File</key>
