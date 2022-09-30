@@ -6,64 +6,30 @@
 	<array>
 		<dict>
 			<key>ModifiedContent</key>
-			<string>enum Weather {
-    case sun, rain, wind, snow, unknown
+			<string>let age = 18
+let canVote = age &gt;= 18 ? "Yes" : "No"
+print(canVote)
+
+let hour = 23
+
+print(hour &lt; 12 ? "It's before noon" : "It's after noon")
+
+enum Theme {
+    case light, dark
 }
 
-var forecast = Weather.sun
+let theme = Theme.dark
 
-switch forecast {
-case .sun:
-    print("It should be a nice day")
-case .rain:
-    print("Psck an umbrella")
-case .wind:
-    print("Wear something warm")
-case .snow:
-    print("School is cancelled")
-case .unknown:
-    print("Our forecast generator is broken!")
-}
-
-let place = "Metropolis"
-
-switch place {
-case "Gotham":
-    print("You're Batman!")
-case "Mega-City One":
-    print("You're Judge Dredd!")
-default:
-    print("Who are you?")
-}
-
-//if you explicitly want Swift to carry on executing cases after the first one matched you can do that by saying fallthrough
-
-let day = 5
-print("My true love gave to me..")
-
-switch day {
-case 5:
-    print("5 golden rings")
-    fallthrough
-case 4:
-    print("4 calling birds")
-    fallthrough
-case 3:
-    print("3 french hens")
-    fallthrough
-case 2:
-    print("2 turtle doves")
-    fallthrough
-default:
-    print("A partridge in a pear tree") 
-}
+let background = theme == .dark ? "black" : "white"
+print(background)
 </string>
 			<key>ModifiedRange</key>
-			<string>{0, 973}</string>
+			<string>{0, 273}</string>
 			<key>OriginalContent</key>
-			<string></string>
+			<string>
+</string>
 			<key>OriginalRange</key>
-			<string>{0, 0}</string>
+			<string>{0, 1}</string>
 		</dict>
 	</array>
 	<key>File</key>
