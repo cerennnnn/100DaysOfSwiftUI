@@ -88,4 +88,32 @@ let int1 = 3
 var rating = 5.0
 rating *= 2
 
+let roll = Int.random(in: 1...6)
 
+//functions
+
+//this function takes 2 parameters an integer called number and an endpoint called end
+func printTimesTables(number: Int, end: Int) {
+    for i in 1...end {
+        print("\(i) x \(number) is \(i * number) ")
+    }
+}
+
+printTimesTables(number: 2, end: 4)
+
+func presents(gifts: [Int]) {
+    for gift in gifts {
+        print(gift)
+    }
+}
+
+presents(gifts: [1, 4, 3, 5])
+
+func square(numbers: [Int]) {
+    for number in numbers {
+        let squared = number * number
+        print("\(number) squared is \(squared)")
+    }
+}
+
+square(numbers : [1, 2, 3])
