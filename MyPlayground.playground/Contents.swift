@@ -1,38 +1,45 @@
 import UIKit
 
-//when our code can be boiled down to a single value, such as true, false, "Hello", or 19, it's called an 'expression'. Expressions are things that can be assigned to a variable, or printed using print().
-//when we're performing actions such as creating variables, starting a loop, or checking a condition, then it's called a 'statement'.
-//the expression inside there can be as long as you want, but it can't contain any statements - no loops, no conditions, no new variables, and so on.
+//how to customize parameter labels
 
-func greet(name: String) -> String{
-    name == "Taylor Swift" ? "Oh wow!" : "Hello, \(name)"
-}
-
-//if we have actual if else statements omitting return keyword inside if and else is not allowed.
-func read(books: [String]) -> Bool {
-    for book in books {
-        print("I'm reading \(book)")
+func rollDice(sides: Int, count: Int) -> [Int] {
+//    start with an empty array
+    var rolls = [Int]()
+    
+//    roll as many dice as needed
+    for _ in 1...count {
+//        add each result to our array
+        let roll = Int.random(in: 1...6)
+        rolls.append(roll)
     }
-    return true
-}
-read(books: ["Harry Potter 1", "Harry Potter 2"])
-
-//tuples
-//like arrays, dictionaries and sets, tuples lets us put multiple pieces of data into a single variable, but they are fixed in size and can have a vaariety of data types.
-
-func getUser() -> (firstName: String, lastName: String) {
-    ("Taylor", "Swift")
+    
+//    send back all the rolls
+    return rolls
 }
 
-let user = getUser()
-print("Name: \(user.firstName) \(user.lastName)")
+let rolls = rollDice(sides: 6, count:4)
 
-// sometimes you’ll find you’re given tuples where the elements don’t have names. When this happens you can access the tuple’s elements using numerical indices starting from 0
-print("Name: \(user.0) \(user.1)")
+//if we add an underscore before the parameter name, we can remove the external parameter label
 
-let (firstName, lastName) = getUser()
-print("Name: \(firstName) \(lastName)")
+func isUppercase(_ string: String) -> Bool {
+    string == string.uppercased()
+}
 
-//if you don’t need all the values from the tuple you can go a step further by using _ to tell Swift to ignore that part of the tuple:
-//let (firstName, _) = getUser()
-//print("Name: \(firstName)")
+let string = "HELLO, WORLD"
+let result = isUppercase(string)
+ 
+func printTimesTables(for number: Int) {
+    for i in 1...12 {
+        print("\(i) x \(number) is \(i * number)")
+    }
+}
+
+printTimesTables(for: 5)
+
+//the external parameter name is for, the internal parameter name is number anx it's of type Int.
+//when we call the function we use the external name for the parameter
+//inside the function we use the internal name for the parameter
+
+//So, Swift gives us 2 important ways to control parameter names: we can use _ for the external parameter name so that it doesn't get used, or add a 2nd name there so that we have bot h external and internal parameter names.
+
+//technically values you pass in to a function are called 'arguments' and values you receive inside the function are called parameters.
