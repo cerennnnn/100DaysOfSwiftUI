@@ -1,88 +1,59 @@
 import UIKit
 
-//closures = function copies
+//trailing closures
 
-func greetUser() {
-    print("Hi there!")
-}
-
-greetUser()
-
-var greetCopy = greetUser
-greetCopy()
-
-//    when you're copying a function, you don't write the parantheses after it, if you put the parantheses there you are calling the function and assigning its return value back to something else
-
-//basic closure definition
-let sayHello = {
-    print("Hi there!")
-}
-
-sayHello()
-
-//closure that accepts parameters
-let sayHello1 = { (name: String) -> String in
-    "Hi, \(name)!"
-}
-
-//in keyword is used to mark the end of the parameters and return type - everything after that is the body of the closure itself
-
-//Void and {} are the same thing.
-
-//when we call closures we don't use external or internal parameter names
-sayHello1("Taylor")
-
-var greetCopy1: () -> Void = greetUser
-//greetCopy1 is a closure that takes no parameters, returns nothing and doesn't throw errors.
-
-//pass functions into another functions
 let team = ["Gloria", "Suzanne", "Piper", "Tiffany", "Tasha"]
-let sortedTeam = team.sorted()
-print(sortedTeam)
 
-//sorted() allows us to pass in a custom sorting function to control that. This function must accept 2 strings, and return true if the 1st string should be sorted before the 2nd, or false if the 1st string should be sorted after the 2nd.
+//we don't need to specify the types of our parameters bc they must be strings, and we don't need to specify a return type bc it must be a Boolean
 
-//sorted() can be passed a function to create a custom sort order, and as long as that function a) accepts two strings, and b) returns a Boolean, sorted() can use it.
+//let captainFirstTeam = team.sorted(by: { name1, name2 in
+//    if name1 == "Suzanne" {
+//        return true
+//    } else if name2 == "Suzanne" {
+//        return false
+//    }
+//
+//    return name1 < name2
+//})
 
-func captainFirstSorted(name1: String, name2: String) -> Bool {
+//trailing closure syntax
+//when one function accepts another as its parameter, Swift allows special syntax called trailing closure
+
+
+let captainFirstTeam = team.sorted { name1, name2 in
     if name1 == "Suzanne" {
         return true
     } else if name2 == "Suzanne" {
         return false
     }
+    
     return name1 < name2
 }
-//If neither name is Suzanne, just use < to do a normal alphabetical sort.
 
-let captainFirstTeam = team.sorted(by: captainFirstSorted)
 print(captainFirstTeam)
 
-let captainFirstTeam1 = team.sorted(by: {(name1: String, name2: String) -> Bool in
-    if name1 == "Suzanne" {
-          return true
-      } else if name2 == "Suzanne" {
-          return false
-      }
+//There's one last way Swifr can make closures less cluttered: Swift can automatically provide parameter names for us, using shorthand syntax.
+//With this syntax we don't even write name1, name2 in anymore, instead rely on specially named values that Swift provies for us : $0 and $1 for the 1st and 2nd strings respectively.
 
-      return name1 < name2
-})
-
-print(captainFirstTeam1)
-
-//a closure that accepts one parameter and returns nothing
-let payment = {(user: String) in
-    print("Paying \(user)...")
+let captainFirstTeam1 = team.sorted {
+    if $0 == "Suzanne" {
+        return true
+    } else if $1 == "Suzanne" {
+        return false
+    }
+    return $0 < $1
 }
 
-//a closure that accepts one parameter and returns a Boolean
-let payment1 =  {(user: String) -> Bool in
-    print("Paying \(user)...")
-    return true
-}
+//filter() lets us run some code on every item in the array and will send back a new array containing every item that returns true for the function.
+//we could find all team players whose name begins with T like this:
+let tOnly = team.filter { $0.hasPrefix("T")}
+print(tOnly)
 
-//a closure that doesn't take any parameters and returns a Boolean
-let payment2 = {() -> Bool in
-    print("Paying an anonymous person...")
-    return true
-}
+//map() lets us transform every item in the array using some code of our own choosing, and sends back a new array of all the transformed items:
+let uppercaseTeam = team.map { $0.uppercased() }
+print(uppercaseTeam)
+
+//That will print ["GLORIA", "SUZANNE", "PIPER", "TIFFANY", "TASHA"], because it has uppercased every name and produced a new array from the result.
+
+//When working with map(), the type you return doesn’t have to be the same as the type you started with – you could convert an array of integers to an array of strings, for example.
 
