@@ -1,46 +1,70 @@
 import UIKit
 
-//how to handle errors in functions
+//closures = function copies
 
-enum PasswordError: Error {
-    case short, obvious
+func greetUser() {
+    print("Hi there!")
 }
 
-func checkPassword(_ password: String) throws -> String {
-    if password.count < 5 {
-        throw PasswordError.short
-    }
-    
-    if password == "12345" {
-        throw PasswordError.obvious
-    }
-    
-    if password.count < 8 {
-        return "OK"
-    } else if password.count < 10 {
-        return "Good"
-    } else {
-        return "Excellent"
-    }
+greetUser()
+
+var greetCopy = greetUser
+greetCopy()
+
+//    when you're copying a function, you don't write the parantheses after it, if you put the parantheses there you are calling the function and assigning its return value back to something else
+
+//basic closure definition
+let sayHello = {
+    print("Hi there!")
 }
 
-//being marked by throws doesn't mean the function must throw errors, only that it might
-//try keyword must be written before calling all functions that might throw errors, and is a visual signal to developers that regular code execution will be interrupted if an error happens.
-//when you use try, you need to be inside a do block, and make sure you have one or more catch blocks able to handle any errors.
-//you must always have a catch block that is able to handle every kind of error. However, you can also catch specific errors as well
+sayHello()
 
-
-let string = "12345"
-
-do {
-    let result = try checkPassword(string)
-    print("Password rating: \(result)")
-} catch PasswordError.short {
-    print("Please use a longer password")
-} catch PasswordError.obvious {
-    print("I have the same combination on my luggage!")
-} catch {
-    print("There was an error .")
+//closure that accepts parameters
+let sayHello1 = { (name: String) -> String in
+    "Hi, \(name)!"
 }
 
-//Most errors thrown by Apple provide a meaningful message that you can present to your user if needed. Swift makes this available using an error value that's automatically provided inside your catch block, and it's common to read error.localizedDescription to see exactly what happened.
+//in keyword is used to mark the end of the parameters and return type - everything after that is the body of the closure itself
+
+//Void and {} are the same thing.
+
+//when we call closures we don't use external or internal parameter names
+sayHello1("Taylor")
+
+var greetCopy1: () -> Void = greetUser
+//greetCopy1 is a closure that takes no parameters, returns nothing and doesn't throw errors.
+
+//pass functions into another functions
+let team = ["Gloria", "Suzanne", "Piper", "Tiffany", "Tasha"]
+let sortedTeam = team.sorted()
+print(sortedTeam)
+
+//sorted() allows us to pass in a custom sorting function to control that. This function must accept 2 strings, and return true if the 1st string should be sorted before the 2nd, or false if the 1st string should be sorted after the 2nd.
+
+//sorted() can be passed a function to create a custom sort order, and as long as that function a) accepts two strings, and b) returns a Boolean, sorted() can use it.
+
+func captainFirstSorted(name1: String, name2: String) -> Bool {
+    if name1 == "Suzanne" {
+        return true
+    } else if name2 == "Suzanne" {
+        return false
+    }
+    return name1 < name2
+}
+//If neither name is Suzanne, just use < to do a normal alphabetical sort.
+
+let captainFirstTeam = team.sorted(by: captainFirstSorted)
+print(captainFirstTeam)
+
+let captainFirstTeam1 = team.sorted(by: {(name1: String, name2: String) -> Bool in
+    if name1 == "Suzanne" {
+          return true
+      } else if name2 == "Suzanne" {
+          return false
+      }
+
+      return name1 < name2
+})
+
+print(captainFirstTeam1)
