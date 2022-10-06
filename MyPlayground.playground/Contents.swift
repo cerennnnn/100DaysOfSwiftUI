@@ -68,3 +68,21 @@ let captainFirstTeam1 = team.sorted(by: {(name1: String, name2: String) -> Bool 
 })
 
 print(captainFirstTeam1)
+
+//a closure that accepts one parameter and returns nothing
+let payment = {(user: String) in
+    print("Paying \(user)...")
+}
+
+//a closure that accepts one parameter and returns a Boolean
+let payment1 =  {(user: String) -> Bool in
+    print("Paying \(user)...")
+    return true
+}
+
+//a closure that doesn't take any parameters and returns a Boolean
+let payment2 = {() -> Bool in
+    print("Paying an anonymous person...")
+    return true
+}
+
