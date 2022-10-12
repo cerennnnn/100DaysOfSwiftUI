@@ -1,133 +1,52 @@
 import UIKit
 
-//trailing closures
-
-let team = ["Gloria", "Suzanne", "Piper", "Tiffany", "Tasha"]
-
-//we don't need to specify the types of our parameters bc they must be strings, and we don't need to specify a return type bc it must be a Boolean
-
-//let captainFirstTeam = team.sorted(by: { name1, name2 in
-//    if name1 == "Suzanne" {
-//        return true
-//    } else if name2 == "Suzanne" {
-//        return false
-//    }
-//
-//    return name1 < name2
-//})
-
-//trailing closure syntax
-//when one function accepts another as its parameter, Swift allows special syntax called trailing closure
-
-let captainFirstTeam = team.sorted { name1, name2 in
-    if name1 == "Suzanne" {
-        return true
-    } else if name2 == "Suzanne" {
-        return false
-    }
+struct Album {
+    let title: String
+    let artist: String
+    let year: Int
     
-    return name1 < name2
-}
-
-print(captainFirstTeam)
-
-//There's one last way Swifr can make closures less cluttered: Swift can automatically provide parameter names for us, using shorthand syntax.
-//With this syntax we don't even write name1, name2 in anymore, instead rely on specially named values that Swift provies for us : $0 and $1 for the 1st and 2nd strings respectively.
-
-let captainFirstTeam1 = team.sorted {
-    if $0 == "Suzanne" {
-        return true
-    } else if $1 == "Suzanne" {
-        return false
+    func printSummary() {
+        print("\(title) (\(year)) by \(artist)")
     }
-    return $0 < $1
 }
 
-//filter() lets us run some code on every item in the array and will send back a new array containing every item that returns true for the function.
+//When you’re referring to a data type, we use camel case where the first letter is uppercased, but when you’re referring to something inside the type, such as a variable or function, we use camel case where the first letter is lowercased.
 
-//we could find all team players whose name begins with T like this:
+let red = Album(title: "Red", artist: "Taylor Swoft", year: 2012)
 
-let tOnly = team.filter { $0.hasPrefix("T")}
-print(tOnly)
+print(red.title)
+red.printSummary()
 
-//map() lets us transform every item in the array using some code of our own choosing, and sends back a new array of all the transformed items:
-let uppercaseTeam = team.map { $0.uppercased() }
-print(uppercaseTeam)
 
-//That will print ["GLORIA", "SUZANNE", "PIPER", "TIFFANY", "TASHA"], because it has uppercased every name and produced a new array from the result.
-
-//When working with map(), the type you return doesn’t have to be the same as the type you started with – you could convert an array of integers to an array of strings, for example.
-
-//closures as parameters
-//example - 1
-var swift = {
-    print("Cool - I can use closures!")
+struct Employee {
+    let name: String
+//    var vacationRemaining: Int
+    var vacationRemaining = 14
+    
+    mutating func takeVacation(days: Int) {
+        if vacationRemaining > days {
+            vacationRemaining -= days
+            print("i'm going on vacation")
+            print("Day's remaining: \(vacationRemaining)")
+        } else {
+            print("Oops! There aren't enough days remaining.")
+        }
+    }
 }
 
-func writeCode(using language: () -> Void) {
-    language()
-    print("That'll be eleventy billion dollar, please.")
-}
+//eger let ile bir instance yaratirsak struct'in icindeki tum veriler constant olur ve degistirmeye calisirsak hata verir, o yuzden mutating keyword'u kullanilir.
+//trying to call a mutating function on a constant struct is NOT allowed.
+//variables and constants that belong to structs are called properties.
+//functions that belong to structs are called methods.
+//when we create a constant or variable out of a struct, it's called an instance.
+//when we create instances of structs we do it with using an initializer.
 
-writeCode(using: swift)
+//creating an instance of a struct
+let wings = Album(title: "Wings", artist: "BTS", year: 2016)
 
-//example - 2
-var playWithDog = {
-    print("fetch!")
-}
-
-func play(using playType: () -> Void) -> String {
-    print("Let's play a game")
-    playType()
-    return "👍"
-}
-play(using: playWithDog)
-
-//example - 3
-let awesomeTalk = {
-    print("Here's a great talk!")
-}
-
-func deliverTalk(name: String, type: () -> Void) {
-    print("My talk is called \(name)")
-    type()
-}
-
-deliverTalk(name: "My Awesome Talk", type: awesomeTalk)
-
-//example - 4
-let evilRobot = {
-    print("EXTERMINATE")
-}
-
-func buildRobot(using personality: () -> Void) {
-    print("Time to turn on the robot!")
-    personality()
-}
-
-buildRobot(using: evilRobot)
-
-//example - 5
-let resignation = { (name: String) in
-    print("Dear \(name), I'm outta here!")
-}
-
-func printDocument(contents: (String) -> Void) {
-    print("Connecting to printer... Sending document...")
-    contents("Josh")
-}
-
-printDocument(contents: resignation)
-
-//example - 6
-let driveSafely = { () -> String in
-    return "I'm being a considerate driver."
-}
-
-func drive(using driving: () -> String) {
-    print("Let's get in the car")
-    driving()
-    print("We're there!")
-}
-
-drive(using: driveSafely)
+//if our struct had these two properties
+let name: String
+var vacationRemaining = 14
+//then Swift will silently generate an initializer with a default value of 14 for vacationRemaining, makeing both of these valid:
+let poovey = Employee(name:"Pwm Pooveyww" , vacationRemaining: 35)
+let kane = Employee(name: "Lane Kane")
