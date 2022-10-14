@@ -1,52 +1,97 @@
 import UIKit
 
-struct Album {
-    let title: String
-    let artist: String
-    let year: Int
-    
-    func printSummary() {
-        print("\(title) (\(year)) by \(artist)")
+//the difference between a struct and a tuple
+
+//a tuple is just a struct without a name, like an anonymous struct. This means you can define it as (name: String, age: Int, city: String) and it'll do the same thing as the following struct:
+
+struct User {
+    var name: String
+    var age: Int
+    var city: String
+}
+
+//when you want to return several pieces of data from a single function, tuples can be annoying to use again and again.
+func authenticate( _ user: User) { }
+//or
+func authenticate( _ user: (name: String, age: Int, city: String)) { }
+
+//So, use tuples when you want to return two or more arbitrary pieces of values from a function, but prefer structs when you have some fixed data you want to send or receive multiple times.
+
+//the difference between a function and a method
+//methods belong to a type, such as structs, enums, and classes, whereas functions do not.
+
+//why do e need to mark methods as mutating?
+//methods belong to a type, such as structs, enums, and classes, whereas functions do not.
+//It’s possible to modify the properties of a struct, but only if that struct is created as a variable. Of course, inside your struct there’s no way of telling whether you’ll be working with a variable struct or a constant struct, so Swift has a simple solution: any time a struct’s method tries to change any properties, you must mark it as mutating.
+//Marking methods as mutating will stop the method from being called on constant structs, even if the method itself doesn’t actually change any properties. If you say it changes stuff, Swift believes you!
+//A method that is not marked as mutating cannot call a mutating function – you must mark them both as mutating.
+
+//example - 1
+struct Diary {
+    var entries: String
+    mutating func add(entry: String) {
+        entries += "\(entry)"
     }
 }
 
-//When you’re referring to a data type, we use camel case where the first letter is uppercased, but when you’re referring to something inside the type, such as a variable or function, we use camel case where the first letter is lowercased.
+//example - 2
+struct Surgeon {
+    var operationsPerformed = 0
+    mutating func operate(on patient: String) {
+        print("Nurse, hand me the scalpel!")
+        operationsPerformed += 1
+    }
+}
 
-let red = Album(title: "Red", artist: "Taylor Swoft", year: 2012)
+//struct Car {
+//    let mileage: Int
+//    mutating func drive(distance: Int) {
+//        mileage += distance
+//    }
+//}
 
-print(red.title)
-red.printSummary()
+//let is immutable so we need to change it as var
 
-
-struct Employee {
-    let name: String
-//    var vacationRemaining: Int
-    var vacationRemaining = 14
-    
-    mutating func takeVacation(days: Int) {
-        if vacationRemaining > days {
-            vacationRemaining -= days
-            print("i'm going on vacation")
-            print("Day's remaining: \(vacationRemaining)")
+struct Switch {
+    var isOn: Bool
+    mutating func toggle() {
+        if isOn {
+            isOn == false
         } else {
-            print("Oops! There aren't enough days remaining.")
+            isOn == true
         }
     }
 }
 
-//eger let ile bir instance yaratirsak struct'in icindeki tum veriler constant olur ve degistirmeye calisirsak hata verir, o yuzden mutating keyword'u kullanilir.
-//trying to call a mutating function on a constant struct is NOT allowed.
-//variables and constants that belong to structs are called properties.
-//functions that belong to structs are called methods.
-//when we create a constant or variable out of a struct, it's called an instance.
-//when we create instances of structs we do it with using an initializer.
+struct MeetingRoom {
+    var isBooked = true
+    mutating func book(for name: String) {
+        if isBooked {
+            print("Sorry, the meeting room is already taken.")
+        } else {
+            isBooked = true
+            print("It's reserved for \(name).")
+        }
+    }
+}
 
-//creating an instance of a struct
-let wings = Album(title: "Wings", artist: "BTS", year: 2016)
+struct Delorean {
+    var speed = 0
+    mutating func accelerate() {
+        speed += 1
+        if speed == 88 {
+            travelThroughTime()
+        }
+    }
+    func travelThroughTime() {
+        print("Where we're going we don't need roads.")
+    }
+}
 
-//if our struct had these two properties
-let name: String
-var vacationRemaining = 14
-//then Swift will silently generate an initializer with a default value of 14 for vacationRemaining, makeing both of these valid:
-let poovey = Employee(name:"Pwm Pooveyww" , vacationRemaining: 35)
-let kane = Employee(name: "Lane Kane")
+struct Bicycle {
+    var currentGear: Int
+    mutating func changeGear(to newGear: Int) {
+        currentGear = newGear
+        print("I'm now in gear \(currentGear).")
+    }
+}
