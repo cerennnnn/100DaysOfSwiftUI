@@ -1,97 +1,38 @@
 import UIKit
 
-//the difference between a struct and a tuple
+//How to compute property values dynamically
 
-//a tuple is just a struct without a name, like an anonymous struct. This means you can define it as (name: String, age: Int, city: String) and it'll do the same thing as the following struct:
+//structs have 2 kinds of property: a stored property & a computed property
+//a stored property is a variable or constant that holds piece of data inside an instance of the struct
+//a computed property is calculates the value of the property dynamically every time it's accessed. This means computed properties are a blend of both stored properties and functions: they're accessed like stored properties but work like functions.
 
-struct User {
-    var name: String
-    var age: Int
-    var city: String
-}
+//an Employee struct that could track how many days of vacation remained for that employee
 
-//when you want to return several pieces of data from a single function, tuples can be annoying to use again and again.
-func authenticate( _ user: User) { }
-//or
-func authenticate( _ user: (name: String, age: Int, city: String)) { }
-
-//So, use tuples when you want to return two or more arbitrary pieces of values from a function, but prefer structs when you have some fixed data you want to send or receive multiple times.
-
-//the difference between a function and a method
-//methods belong to a type, such as structs, enums, and classes, whereas functions do not.
-
-//why do e need to mark methods as mutating?
-//methods belong to a type, such as structs, enums, and classes, whereas functions do not.
-//It’s possible to modify the properties of a struct, but only if that struct is created as a variable. Of course, inside your struct there’s no way of telling whether you’ll be working with a variable struct or a constant struct, so Swift has a simple solution: any time a struct’s method tries to change any properties, you must mark it as mutating.
-//Marking methods as mutating will stop the method from being called on constant structs, even if the method itself doesn’t actually change any properties. If you say it changes stuff, Swift believes you!
-//A method that is not marked as mutating cannot call a mutating function – you must mark them both as mutating.
-
-//example - 1
-struct Diary {
-    var entries: String
-    mutating func add(entry: String) {
-        entries += "\(entry)"
-    }
-}
-
-//example - 2
-struct Surgeon {
-    var operationsPerformed = 0
-    mutating func operate(on patient: String) {
-        print("Nurse, hand me the scalpel!")
-        operationsPerformed += 1
-    }
-}
-
-//struct Car {
-//    let mileage: Int
-//    mutating func drive(distance: Int) {
-//        mileage += distance
-//    }
-//}
-
-//let is immutable so we need to change it as var
-
-struct Switch {
-    var isOn: Bool
-    mutating func toggle() {
-        if isOn {
-            isOn == false
-        } else {
-            isOn == true
+struct Employee {
+    let name: String
+    var vacationAllocated = 14
+    var vacationTaken = 0
+    
+    var vacationRemaing: Int {
+        get {
+            vacationAllocated - vacationTaken
+        }
+        set {
+            vacationAllocated = vacationTaken + newValue
         }
     }
 }
 
-struct MeetingRoom {
-    var isBooked = true
-    mutating func book(for name: String) {
-        if isBooked {
-            print("Sorry, the meeting room is already taken.")
-        } else {
-            isBooked = true
-            print("It's reserved for \(name).")
-        }
-    }
-}
+var archer = Employee(name: "Sterling Archer", vacationAllocated: 14)
+archer.vacationTaken += 4
+print(archer.vacationRemaing)
 
-struct Delorean {
-    var speed = 0
-    mutating func accelerate() {
-        speed += 1
-        if speed == 88 {
-            travelThroughTime()
-        }
-    }
-    func travelThroughTime() {
-        print("Where we're going we don't need roads.")
-    }
-}
+//this is really powerful bc we're reading what looks like a prooperty but bts Switf's running some code its calculated every time.
+//we need to provide a getter and a setter to read and write code respectively.
 
-struct Bicycle {
-    var currentGear: Int
-    mutating func changeGear(to newGear: Int) {
-        currentGear = newGear
-        print("I'm now in gear \(currentGear).")
-    }
-}
+//get and set mark individual pieces of code to run when reading or writing a value.
+//newValue is automatically provided to us by Swift, nd stores whatever alue the user was trying to assign to the property.
+//with both a getter and setter in place, we can now modify vacationRemaining:
+archer.vacationRemaing += 5
+print(archer.vacationAllocated)
+
