@@ -36,3 +36,39 @@ print(archer.vacationRemaing)
 archer.vacationRemaing += 5
 print(archer.vacationAllocated)
 
+//computed properties MUST always have an explicit type
+//example
+struct Code {
+    var language: String
+    var containErrors = false
+    var report: String {
+        if containErrors {
+            return "This \(language) code has bugs."
+        } else {
+            return "This looks good to me."
+        }
+    }
+}
+
+var example = Code(language: "English")
+example.containErrors = true
+print(example.report)
+
+//constants cannot be computed properties.
+
+struct Wine {
+    var age: Int
+    var isVintage: Bool
+    var price: Int {
+        if isVintage {
+            return age + 20
+        } else {
+            return age + 5
+        }
+    }
+}
+
+let malbec = Wine(age: 2, isVintage: true)
+malbec.price
+
+
