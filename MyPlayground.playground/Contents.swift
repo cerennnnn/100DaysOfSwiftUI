@@ -1,74 +1,55 @@
 import UIKit
 
-//How to compute property values dynamically
+//How to take action when a property changes
 
-//structs have 2 kinds of property: a stored property & a computed property
-//a stored property is a variable or constant that holds piece of data inside an instance of the struct
-//a computed property is calculates the value of the property dynamically every time it's accessed. This means computed properties are a blend of both stored properties and functions: they're accessed like stored properties but work like functions.
+//Swift lets us create property observers whoch are special pieces of code that run when properties change. These takes 2 forms: a didSet observer to run when the property just changed and a willSet observer to run before the property changed.
 
-//an Employee struct that could track how many days of vacation remained for that employee
-
-struct Employee {
-    let name: String
-    var vacationAllocated = 14
-    var vacationTaken = 0
-    
-    var vacationRemaing: Int {
-        get {
-            vacationAllocated - vacationTaken
-        }
-        set {
-            vacationAllocated = vacationTaken + newValue
+//to see why property observers might be needed, this abt code like this:
+struct Game {
+    var score = 0 {
+        didSet {
+            print("Score is now \(score)")
         }
     }
 }
 
-var archer = Employee(name: "Sterling Archer", vacationAllocated: 14)
-archer.vacationTaken += 4
-print(archer.vacationRemaing)
+var game = Game()
+game.score += 10
+game.score -= 3
+game.score += 1
 
-//this is really powerful bc we're reading what looks like a prooperty but bts Switf's running some code its calculated every time.
-//we need to provide a getter and a setter to read and write code respectively.
+//if you want it, Swift automatically provides the constant oldValue inside didSet, in case you need to have custom functionality based on what you were changing from.
+//there's also a willSet variant that runs some code before the property changes, which in turn provides the new value that will be assigned in case you want to take different action based on that.
 
-//get and set mark individual pieces of code to run when reading or writing a value.
-//newValue is automatically provided to us by Swift, nd stores whatever alue the user was trying to assign to the property.
-//with both a getter and setter in place, we can now modify vacationRemaining:
-archer.vacationRemaing += 5
-print(archer.vacationAllocated)
+//We can demonstrate all this functionality in action using one code sample, which will print messages as the values change so you can see the flow when the code is run:
+struct App {
+    var contacts = [String]() {
+        willSet {
+            print("Current value is: \(contacts)")
+            print("New value will be: \(newValue)")
+        }
+        didSet {
+            print("There are now \(contacts.count) contacts.")
+            print("Old value was \(oldValue)")
+        }
+    }
+}
 
-//computed properties MUST always have an explicit type
+var app = App()
+app.contacts.append("Adrian E")
+app.contacts.append("Allen W")
+app.contacts.append("Ish S")
+
+//Yes, appending to an array will trigger both willSet and didSet, so that code will print lots of text when run.
+
+//In practice, willSet is used much less than didSet, but you might still see it from time to time so it’s important you know it exists. Regardless of which you choose, please try to avoid putting too much work into property observers – if something that looks trivial such as game.score += 1 triggers intensive work, it will catch you out on a regular basis and cause all sorts of performance problems.
+
 //example
-struct Code {
-    var language: String
-    var containErrors = false
-    var report: String {
-        if containErrors {
-            return "This \(language) code has bugs."
-        } else {
-            return "This looks good to me."
+struct Game {
+    var score: Int {
+        didSet {
+            print("Your score is now \(score).")
         }
     }
 }
-
-var example = Code(language: "English")
-example.containErrors = true
-print(example.report)
-
-//constants cannot be computed properties.
-
-struct Wine {
-    var age: Int
-    var isVintage: Bool
-    var price: Int {
-        if isVintage {
-            return age + 20
-        } else {
-            return age + 5
-        }
-    }
-}
-
-let malbec = Wine(age: 2, isVintage: true)
-malbec.price
-
 
