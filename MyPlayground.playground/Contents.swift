@@ -35,3 +35,22 @@ let player2 = Player(name: "Megan R")
 print(player.number)
 
 //You can add multiple initializers to your structs if you want, as well as leveraging features such as external parameter names and default values. However, as soon as you implement your own custom initializers you’ll lose access to Swift’s generated memberwise initializer unless you take extra steps to retain it. This isn’t an accident: if you have a custom initializer, Swift effectively assumes that’s because you have some special way to initialize your properties, which means the default one should no longer be available.
+
+
+//Inside a method, Swift lets us refer to the current instance of a struct using self, but broadly speaking you don’t want to unless you specifically need to distinguish what you mean.
+
+//By far the most common reason for using self is inside an initializer, where you’re likely to want parameter names that match the property names of your type, like this:
+
+struct Student {
+    var name: String
+    var bestFriend: String
+
+    init(name: String, bestFriend: String) {
+        print("Enrolling \(name) in class…")
+        self.name = name
+        self.bestFriend = bestFriend
+    }
+}
+
+//Outside of initializers, the main reason for using self is because we’re in a closure and Swift requires it so we’re clear we understand what’s happening. This is only needed when accessing self from inside a closure that belongs to a class, and Swift will refuse to build your code unless you add it.
+
