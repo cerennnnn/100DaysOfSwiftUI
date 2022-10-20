@@ -54,3 +54,35 @@ struct Student {
 
 //Outside of initializers, the main reason for using self is because we’re in a closure and Swift requires it so we’re clear we understand what’s happening. This is only needed when accessing self from inside a closure that belongs to a class, and Swift will refuse to build your code unless you add it.
 
+//example
+struct SuperHero {
+    var nickname: String
+    var powers: [String]
+    init(nickname: String, superPowers: [String]) {
+        self.nickname = nickname
+        self.powers = superPowers
+    }
+}
+let batman = SuperHero(nickname: "The Caped Crusader", superPowers: ["He's really rich"])
+
+//example2
+struct Character {
+    var name: String
+    var actor: String
+    var probablyGoingToDie: Bool
+    init(name: String, actor: String) {
+        self.name = name
+        self.actor = actor
+        if self.actor == "Sean Bean" {
+            probablyGoingToDie = true
+        } else {
+            probablyGoingToDie = false
+        }
+    }
+}
+
+//a method is a function that belongs to a struct. Other than that, there's no real difference between a function and a method - we even write them both using func.
+
+//if you make a method that modifies a struct's properties, your code won't compile until you mark it as mutating.
+
+//if you create a constant instance of your struct, Swift will let you call all methods that aren't marked as mutating. And if you make a variable instance of that struct, Swift will let you call all its mutating methods too. This means that marking methods as mutating tells Swift (and other programmers) up front which methods should be restricted.
