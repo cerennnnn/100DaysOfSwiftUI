@@ -1,65 +1,56 @@
 import UIKit
 
-//classes
+//Swift lets us create classes by basing them on existing classes, which is a process known as "inheritance".
+//When one class inherits functionality from another class(it's 'parent' or 'super' class), Swift will give the new class access (the 'child class' or 'subclass') to the properties and methods from that parent class, allowing us to make small additions or changes to customize the way the new class behaves.
 
-//similarities between classes and structs
-// - you get to create and name them.
-// - you can add properties and methods, including property observers and access control.
+//To make one class inherit from another, write a colon after the child's class name. For example, here's an Employee class with one property and an initializer:
 
-//differences between classes and structs
-// - you can make one class build upon functionality in another class, gaining all its properties and methods as a starting point. If you want to selectively overried some methods, you can do that too.
-// - bc of that 1st point, Swift won't automatically generate a memberwise initializer for classes. This means you either need to write your own initializer, or assign default values to all your properties.
-// - when you copy an instance of a class, both copies share the same data - if you change one copy, the other one also changes.
-// - when the final copy of a class instance is destroyed, Swift can optionally run a special function called a deinitializer.
-// - even if you make a class constant, you can still change its properties as long as they are variables.
-
-class Game {
-    var score = 0 {
-        didSet {
-            print("Score is now \(score)")
-        }
-    }
-}
-var newGame = Game()
-newGame.score += 10
-
-//example1
-class Painting {
-    var title: String
-    var artist: String
-    var paintType: String
-    init(title: String, artist: String, paintType: String) {
-        self.title = title
-        self.artist = artist
-        self.paintType = paintType
-    }
-}
-
-//example2
-class Sandwich {
-    var name: String
-    var fillings: [String]
+class Employee {
+    let hours: Int
     
-    init(name: String, fillings: [String]) {
-        self.name = name
-        self.fillings = fillings
+    init(hours: Int) {
+        self.hours = hours
     }
-}
-let blt = Sandwich(name: "BLT", fillings: ["Bacon", "Lettuce", "Tomato"])
-print(blt.name)
-
-//example3
-class ThemePark {
-    var entryPrice: Int
-    var rides: [String]
-    init(rides: [String]) {
-        self.rides = rides
-        self.entryPrice = rides.count * 2
+    
+    func printSummary() {
+        print("I work \(hours) hours a day.")
     }
 }
 
-//!!!all properties must have a value before the initializer ends.
+//we could make 2 subclasses of Employee, each of which will gain the hours property and initializer:
+class Developer: Employee {
+    func work() {
+        print("I'm writing code for \(hours) hours.")
+    }
+    
+    override func printSummary() {
+        print("I'm a developer who will sometimes work \(hours) hours a day, but other times spend hours arguing about whether code should be indented using tabs or spaces.")
+    }
+}
 
-//example4
-class Empty { }
-let nothing = Empty()
+class Manager: Employee {
+    func work() {
+        print("I'm going to meetings for \(hours) hours.")
+    }
+}
+
+//Each of those classes inherit from Employee but each then adds their own customization. So, if we create an instance of each and call work(), we’ll get a different result:
+
+let robert = Developer(hours: 8)
+let joseph = Manager(hours: 10)
+robert.work()
+joseph.work()
+
+//As well as sharing properties, you can also share methods, which can then be called from the child classes.
+
+//Because Developer inherits from Employee, we can immediately start calling printSummary() on instances of Developer, like this:
+let novall = Developer(hours: 8)
+novall.printSummary()
+
+//if a child class wants to change a method from a parent class, you must use override in the child class’s version. This does two things:
+//If you attempt to change a method without using override, Swift will refuse to build your code. This stops you accidentally overriding a method.
+//If you use override but your method doesn’t actually override something from the parent class, Swift will refuse to build your code because you probably made a mistake.
+
+//Swift is smart about how method overrides work: if your parent class has a work() method that returns nothing, but the child class has a work() method that accepts a string to designate where the work is being done, that does not require override because you aren’t replacing the parent method.
+
+//Tip: If you know for sure that your class should not support inheritance, you can mark it as final. This means the class itself can inherit from other things, but can’t be used to inherit from – no child class can use a final class as its parent.
