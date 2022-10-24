@@ -1,16 +1,25 @@
 import UIKit
 
-//Structs are used almost everywhere in Swift: String, Int, Double, Array and even Bool are all implemented as structs, and now you can recognize that a function such as isMultiple(of:) is really a method belonging to Int.
-//
-//Let’s recap what else we learned:
-//
-//You can create your own structs by writing struct, giving it a name, then placing the struct’s code inside braces.
-//Structs can have variable and constants (known as properties) and functions (known as methods)
-//If a method tries to modify properties of its struct, you must mark it as mutating.
-//You can store properties in memory, or create computed properties that calculate a value every time they are accessed.
-//We can attach didSet and willSet property observers to properties inside a struct, which is helpful when we need to be sure that some code is always executed when the property changes.
-//Initializers are a bit like specialized functions, and Swift generates one for all structs using their property names.
-//You can create your own custom initializers if you want, but you must always make sure all properties in your struct have a value by the time the initializer finishes, and before you call any other methods.
-//We can use access to mark any properties and methods as being available or unavailable externally, as needed.
-//It’s possible to attach a property or methods directly to a struct, so you can use them without creating an instance of the struct.
+//classes
+
+//similarities between classes and structs
+// - you get to create and name them.
+// - you can add properties and methods, including property observers and access control.
+
+//differences between classes and structs
+// - you can make one class build upon functionality in another class, gaining all its properties and methods as a starting point. If you want to selectively overried some methods, you can do that too.
+// - bc of that 1st point, Swift won't automatically generate a memberwise initializer for classes. This means you either need to write your own initializer, or assign default values to all your properties.
+// - when you copy an instance of a class, both copies share the same data - if you change one copy, the other one also changes.
+// - when the final copy of a class instance is destroyed, Swift can optionally run a special function called a deinitializer.
+// - even if you make a class constant, you can still change its properties as long as they are variables.
+
+class Game {
+    var score = 0 {
+        didSet {
+            print("Score is now \(score)")
+        }
+    }
+}
+var newGame = Game()
+newGame.score += 10
 
