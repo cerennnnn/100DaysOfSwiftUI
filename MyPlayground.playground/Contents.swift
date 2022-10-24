@@ -23,3 +23,43 @@ class Game {
 var newGame = Game()
 newGame.score += 10
 
+//example1
+class Painting {
+    var title: String
+    var artist: String
+    var paintType: String
+    init(title: String, artist: String, paintType: String) {
+        self.title = title
+        self.artist = artist
+        self.paintType = paintType
+    }
+}
+
+//example2
+class Sandwich {
+    var name: String
+    var fillings: [String]
+    
+    init(name: String, fillings: [String]) {
+        self.name = name
+        self.fillings = fillings
+    }
+}
+let blt = Sandwich(name: "BLT", fillings: ["Bacon", "Lettuce", "Tomato"])
+print(blt.name)
+
+//example3
+class ThemePark {
+    var entryPrice: Int
+    var rides: [String]
+    init(rides: [String]) {
+        self.rides = rides
+        self.entryPrice = rides.count * 2
+    }
+}
+
+//!!!all properties must have a value before the initializer ends.
+
+//example4
+class Empty { }
+let nothing = Empty()
