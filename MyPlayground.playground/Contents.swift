@@ -1,24 +1,17 @@
 import UIKit
 
-//protocol examples
-//example1
-protocol Plantable {
-    var requirements: [String] { get set }
+//opeque return types
+
+//let's implement 2 simple functions
+func getRandomNumber() -> some Equatable {
+    return Int.random(in: 1...6)
 }
 
-//example2
-protocol Buildable {
-    var numberOfBricks: Int { get set }
-    var materials: [String] { get set }
-}
-//It's not possible to create set-only properties in Swift.
-protocol Singable {
-    var lyrics: [String] { get set }
-    var notes: [String] { get set }
+func getRandomBool() -> some Equatable {
+    return Bool.random()
 }
 
-//example3
-protocol Purchaseable {
-    var price: Double { get set }
-    var currency: String { get set }
-}
+getRandomBool()
+getRandomNumber()
+
+print(getRandomNumber() == getRandomNumber())
