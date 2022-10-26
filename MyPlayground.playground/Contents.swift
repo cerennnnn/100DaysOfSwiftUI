@@ -1,66 +1,63 @@
 import UIKit
 
-class Animal {
-    var legs: Int
+//defining a Vehicle protocol :
+protocol Vehicle {
+    var name: String { get }
+    var currentPassengers: Int { get set }
+    func estimateTime(for distance: Int) -> Int
+    func travel(distance: Int)
+}
+
+//make a Car struct that conforms Vehicle protocol :
+struct Car: Vehicle {
+    let name = "Car"
+    var currentPassengers = 1
     
-    func speak() {
+    func estimateTime(for distance: Int) -> Int {
+        distance / 50
     }
     
-    init(legs: Int) {
-        self.legs = legs
+    func travel(distance: Int) {
+        print("I'm driving \(distance)km.")
+    }
+    
+    func openSunroof() {
+        print("It's a nice day.")
     }
 }
 
-class Dog: Animal {
-    override func speak() {
-        print("Woof woof!")
-    }
-    
-    override init(legs: Int) {
-        super.init(legs: legs)
+func commute(distance: Int, using vehicle: Vehicle) {
+    if vehicle.estimateTime(for: distance) > 100 {
+        print("That's too slow! I'll try a different vehicle.")
+    } else {
+        vehicle.travel(distance: distance)
     }
 }
 
-class Corgi: Dog {
-    override func speak() {
-        print("I'm a Corgi.")
+var car = Car()
+commute(distance: 100, using: car)
+
+struct Bicycle: Vehicle {
+    let name = "Bicycle"
+    var currentPassengers = 1
+    
+    func estimateTime(for distance: Int) -> Int {
+        distance / 10
     }
     
-    override init(legs: Int) {
-        super.init(legs: legs)
+    func travel(distance: Int) {
+        print("I'm cycling \(distance)km.")
     }
 }
 
-class Poodle: Dog {
-    override func speak() {
-        print("I'm a Poodle.")
-    }
-    
-    override init(legs: Int) {
-        super.init(legs: legs)
-    }
-}
+let bike = Bicycle()
+commute(distance: 50, using: bike)
 
-class Cat: Animal {
-    var isTame: Bool
-    
-    override func speak() {
-        print("Meow!")
-    }
-    init(legs: Int, isTame: Bool) {
-        self.isTame = isTame
-        super.init(legs: legs)
+func getTravelEstimates(using vehicles: [Vehicle], distance: Int) {
+    for vehicle in vehicles {
+        let estimate = vehicle.estimateTime(for: distance)
+        print("\(vehicle.name): \(estimate) hours to travel \(distance)km.")
     }
 }
 
-var poodle = Poodle(legs: 4)
-poodle.speak()
-print(poodle.legs)
-
-var corgi = Corgi(legs: 4)
-corgi.speak()
-print(corgi.legs)
-
-var cat = Cat(legs: 4, isTame: true)
-print(cat.isTame, cat.legs)
-cat.speak()
+getTravelEstimates(using: [car, bike], distance: 150)
