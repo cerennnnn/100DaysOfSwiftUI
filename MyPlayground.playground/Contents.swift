@@ -1,70 +1,139 @@
 import UIKit
 
-var favoriteMovie: String? = nil
-favoriteMovie = "The Life of Brian"
+func printSquare(of number: Int?) {
+    guard let number = number else {
+        print("Missing input")
+        
+//        1 - we *must* exit the function here
+        return
+    }
+//    2 - `number`is still available outside of `guard`
+    print("\(number) x \(number) is \(number * number)")
+}
 
-if let favoriteMovie = favoriteMovie {
-    print("Your favorite movie is \(favoriteMovie)")
-} else {
-    print("You don't have a favorite movie.")
+printSquare(of: 5)
+
+//example1
+func double(number: Int?) -> Int? {
+    guard let number = number else {
+        return nil
+    }
+    return number * 2
+}
+
+let input = 5
+if let doubled = double(number: input) {
+    print("\(input) doubled is \(doubled)")
 }
 
 //example2
-let song: String? = "Shake It Off"
+func playOpera(by composer: String?) -> String? {
+    guard let composer = composer else { return "Please specify a composer." }
+    if composer == "Mozart" {
+        return "Le nozze di Figaro"
+            } else {
+                return nil
+            }
+    }
 
-if let unwrappedSong = song {
-    print("The name has \(unwrappedSong.count) letters.")
+if let opera = playOpera(by: "Mozart") {
+    print(opera)
 }
 
 //example3
-let currentDestination: String? = nil
-if let destination = currentDestination {
-    print("We're walking to \(destination).")
-} else {
-    print("We're just wandering.")
+func playScale(name: String?) {
+    guard let name = name else {
+        return
+    }
+    print("Playing the \(name) scale.")
 }
+playScale(name: "C")
 
 //example4
-let menuItems: [String]? = ["Pizza", "Pasta"]
-
-if let items = menuItems {
-    print("There're \(items.count) items to choose.")
+func uppercase(string: String?) -> String? {
+    guard let string = string else {
+        return nil
+    }
+    return string.uppercased()
+}
+if let result = uppercase(string: "Hello") {
+    print(result)
 }
 
 //example5
-let album = "Red"
-let albums = ["Big Reputation", "Red", "1989"]
-
-if let position = albums.firstIndex(of: album) {
-    print("Found \(album) at position \(position).")
+func isLongEnough(_ string: String?) -> Bool {
+    guard let string = string else { return false }
+    if string.count >= 8 {
+        return true
+    } else {
+        return false
+    }
+}
+if isLongEnough("Mario Odyssey") {
+    print("Let's play that!")
 }
 
 //example6
-let userAge: Int? = 38
-if let age = userAge {
-    print("You are \(age) years old.")
+func add3(to number: Int?) -> Int {
+    guard let number = number else {
+        return 3
+    }
+    return number + 3
 }
+let added = add3(to: 5)
+print(added)
 
 //example7
-let favoriteTennisPlayer: String? = "Andy Murray"
-if let favoriteTennisPlayer {
-    print("Let's watch \(favoriteTennisPlayer)'s highlights video on YouTube.")
+func validate(password: String?) -> Bool {
+    guard let password = password else {
+        return false
+    }
+    if password == "fr0sties" {
+        print("Authenticated successfully!")
+        return true
+    }
+    return false
 }
+validate(password: "fr0sties")
 
 //example8
-var winner: String? = nil
-winner = "Daley Thompson"
-
-if let winner {
-    print("And the winner is... \(winner)")
+func test(number: Int?) {
+    guard let number = number else { return }
+    print("Number is \(number)")
 }
+test(number: 42)
 
 //example9
-var bestScore: Int? = nil
-bestScore = 101
-
-if let score = bestScore {
-    print("You got a high score \(score)!")
-} else {
-    print("Better luck next time!")
+func username(for id: Int?) -> String? {
+    guard let id = id else {
+        return nil
+    }
+    if id == 1989 {
+        return "Taylor Swift"
+    } else {
+        return nil
+    }
 }
+if let user = username(for: 1989) {
+    print("Hello, \(user)!")
+}
+
+//example10
+func describe(occupation: String?) {
+    guard let occupation = occupation else {
+        print("You don't have a job.")
+        return
+    }
+    print("You are an \(occupation).")
+}
+let job = "engineer"
+describe(occupation: job)
+
+//example11
+func plantTree(_ type: String?) {
+    guard let type = type else {
+        return
+    }
+    print("Planting a \(type).")
+}
+plantTree("willow")
