@@ -1,164 +1,51 @@
 import UIKit
 
-//extensions
 
-var quote = "    The truth is rarely pure and never simple.    "
+let opposites = [
+    "Mario": "Wario",
+    "Luigi": "Waluigi"
+]
 
-let trimmed = quote.trimmingCharacters(in: .whitespacesAndNewlines)
-print(quote)
-print(trimmed)
+let peachOpposite = opposites["Peach"]
 
-extension String {
-    func trimmed() -> String {
-        self.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
+if let marioOpposite = opposites["Mario"] {
+    print("Mario's opposite is \(marioOpposite)")
 }
 
-let trimmed1 = quote.trimmed()
+var username: String? = nil
 
-func trim(_ string: String) -> String {
-    string.trimmingCharacters(in: .whitespacesAndNewlines)
-}
-let trimmed2 = trim(quote)
-
-struct Book {
-    let title: String
-    let pageCount: Int
-    let readingHours: Int
-
-//    init(title: String, pageCount: Int) {
-//        self.title = title
-//        self.pageCount = pageCount
-//        self.readingHours = pageCount / 50
-//    }
+if let unwrappedName = username {
+    print("We got a user \(unwrappedName)")
+} else {
+    print("The optional was empty.")
 }
 
-extension Book {
-    init(title: String, pageCount: Int) {
-        self.title = title
-        self.pageCount = pageCount
-        self.readingHours = pageCount / 50
-    }
+func square(number: Int) -> Int {
+    return number * number
 }
 
-extension Double {
-    var isNegative: Bool {
-        return self < 0
-    }
+var number: Int? = nil
+
+if let number = number {
+    print(square(number: number))
 }
 
-extension Int {
-    var isEven: Bool {
-        return self % 2 == 0
-    }
+struct User {
+    var name: String
 }
 
-extension String {
-    mutating func append(_ other: String) {
-        self += other
-    }
+let user: User? = User(name: "Linda")
+
+if let name = user?.name {
+    print("Username is \(name)")
 }
 
-extension Int {
-    func times(_ action: () -> Void) {
-        for _ in 0..<self {
-            action()
-        }
-    }
+func Username() -> String? {
+    nil
 }
 
-extension Array {
-    func summarize() {
-        print("The array has \(count) items. They are:")
-        for item in self {
-            print(item)
-        }
-    }
+if let username = Username() {
+    print(username)
+} else {
+    print("nothing's here :/")
 }
-
-extension Int {
-    var isAnswerToLifeUniverseAndEverything: Bool {
-        let target = 42
-        return self == target
-    }
-}
-
-extension Bool {
-    func toggled() -> Bool {
-        if self == true {
-            return false
-        } else {
-            return true
-        }
-    }
-}
-
-extension Int {
-    func cubed() -> Int {
-        return self * self * self
-    }
-}
-
-extension Int {
-    func clamped(min: Int, max: Int) -> Int {
-        if (self > max) {
-            return max
-        } else if (self < min) {
-            return min
-        }
-        return self
-    }
-}
-
-extension String {
-    var isLong: Bool {
-        return count > 25
-    }
-}
-
-extension String {
-    func withPrefix(_ prefix: String) -> String {
-        if self.hasPrefix(prefix) { return self }
-        return "\(prefix)\(self)"
-    }
-}
-
-extension String {
-    func isUppercased() -> Bool {
-        return self == self.uppercased()
-    }
-}
-
-
-protocol Building {
-    var roomNumber: Int { get }
-    var cost: Int { get }
-    var name: String { get}
-    
-    func salesSummary()
-}
-
-struct House: Building {
-    var roomNumber: Int = 4
-    var cost: Int = 1000
-    var name: String = "Penthouse"
-    
-    func salesSummary() {
-        print("\(name) has \(roomNumber) rooms and costs \(cost)$s. ")
-    }
-}
-var house = House()
-house.salesSummary()
-
-struct Office: Building {
-    var roomNumber: Int = 50
-    var cost: Int = 10_000
-    var name: String = "Dunder Mifflin Scranton"
-    
-    func salesSummary() {
-        print("\(name) has \(roomNumber) rooms and costs \(cost)$s.")
-    }
-}
-
-var office = Office()
-office.salesSummary()
