@@ -1,51 +1,70 @@
 import UIKit
 
+var favoriteMovie: String? = nil
+favoriteMovie = "The Life of Brian"
 
-let opposites = [
-    "Mario": "Wario",
-    "Luigi": "Waluigi"
-]
-
-let peachOpposite = opposites["Peach"]
-
-if let marioOpposite = opposites["Mario"] {
-    print("Mario's opposite is \(marioOpposite)")
-}
-
-var username: String? = nil
-
-if let unwrappedName = username {
-    print("We got a user \(unwrappedName)")
+if let favoriteMovie = favoriteMovie {
+    print("Your favorite movie is \(favoriteMovie)")
 } else {
-    print("The optional was empty.")
+    print("You don't have a favorite movie.")
 }
 
-func square(number: Int) -> Int {
-    return number * number
+//example2
+let song: String? = "Shake It Off"
+
+if let unwrappedSong = song {
+    print("The name has \(unwrappedSong.count) letters.")
 }
 
-var number: Int? = nil
-
-if let number = number {
-    print(square(number: number))
-}
-
-struct User {
-    var name: String
-}
-
-let user: User? = User(name: "Linda")
-
-if let name = user?.name {
-    print("Username is \(name)")
-}
-
-func Username() -> String? {
-    nil
-}
-
-if let username = Username() {
-    print(username)
+//example3
+let currentDestination: String? = nil
+if let destination = currentDestination {
+    print("We're walking to \(destination).")
 } else {
-    print("nothing's here :/")
+    print("We're just wandering.")
+}
+
+//example4
+let menuItems: [String]? = ["Pizza", "Pasta"]
+
+if let items = menuItems {
+    print("There're \(items.count) items to choose.")
+}
+
+//example5
+let album = "Red"
+let albums = ["Big Reputation", "Red", "1989"]
+
+if let position = albums.firstIndex(of: album) {
+    print("Found \(album) at position \(position).")
+}
+
+//example6
+let userAge: Int? = 38
+if let age = userAge {
+    print("You are \(age) years old.")
+}
+
+//example7
+let favoriteTennisPlayer: String? = "Andy Murray"
+if let favoriteTennisPlayer {
+    print("Let's watch \(favoriteTennisPlayer)'s highlights video on YouTube.")
+}
+
+//example8
+var winner: String? = nil
+winner = "Daley Thompson"
+
+if let winner {
+    print("And the winner is... \(winner)")
+}
+
+//example9
+var bestScore: Int? = nil
+bestScore = 101
+
+if let score = bestScore {
+    print("You got a high score \(score)!")
+} else {
+    print("Better luck next time!")
 }
