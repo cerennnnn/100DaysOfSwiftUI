@@ -36,7 +36,7 @@ struct ContentView: View {
             Form {
                 Section {
                     TextField("Amount", value: $checkAmount, format: currency)
-                        .keyboardType(.numberPad)
+                        .keyboardType(.decimalPad)
                         .focused($amountIsFocused)
                     
                     Picker("Number of people: ", selection: $numberOfPeople) {
