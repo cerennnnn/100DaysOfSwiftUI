@@ -15,6 +15,10 @@ struct ContentView: View {
     
     let tipPercentages = [10, 15, 20, 25, 0]
     
+    var currency: FloatingPointFormatStyle<Double>.Currency {
+        .currency(code: Locale.current.currency?.identifier ?? "USD")
+    }
+    
     var totalPerPerson: Double {
         //        calculate the total per person
         let peopleCount = Double(numberOfPeople + 2)
@@ -31,7 +35,7 @@ struct ContentView: View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    TextField("Amount", value: $checkAmount, format: currency)
                         .keyboardType(.numberPad)
                         .focused($amountIsFocused)
                     
@@ -60,7 +64,7 @@ struct ContentView: View {
                 }
                 
                 Section {
-                    Text(totalPerPerson , format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                    Text(totalPerPerson , format: currency)
                 } header: {
                 // challenge #1
                     Text("Amount per person: ")
