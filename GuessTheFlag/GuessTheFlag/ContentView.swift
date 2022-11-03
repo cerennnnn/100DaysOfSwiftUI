@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var isFinished = false
+    @State private var isGameFinished = false
     @State private var showingScore = false
     @State private var scoreTitle = ""
     @State private var userScore = 0
@@ -69,14 +69,14 @@ struct ContentView: View {
         }
         
         .alert(scoreTitle, isPresented: $showingScore) {
-            if numberOfQuestions < 9 {
+            if numberOfQuestions < 8 {
                 Button("Continue", action: askQuestion)
             } else {
-                Button("Play again", action: askQuestion)
+                Button("Tap to start over", action: reset)
             }
         } message: {
-            if numberOfQuestions < 9 {
-                Text("Your score is \(userScore)")
+            if numberOfQuestions < 8 {
+                Text("Your score: \(userScore)")
             } else {
                 Text("Final score: \(userScore)")
             }
@@ -85,20 +85,16 @@ struct ContentView: View {
     
     func flagTapped(_ number: Int) {
         numberOfQuestions += 1
+        print(numberOfQuestions)
         
-        if numberOfQuestions != 9 {
-            if number == correctAnswer {
-                scoreTitle = "Correct!"
-                userScore += 1
-            } else {
-                scoreTitle = "Wrong, that's the flag of \(countries[number])"
-                userScore -= 1
-            }
-            showingScore = true
+        if number == correctAnswer {
+            scoreTitle = "Correct!"
+            userScore += 10
         } else {
-            reset()
+            scoreTitle = "Wrong, that's the flag of \(countries[number])"
+            userScore -= 5
         }
-        
+        showingScore = true
     }
     
     func askQuestion() {
@@ -107,10 +103,12 @@ struct ContentView: View {
     }
     
     func reset() {
-        isFinished = true
+        isGameFinished = true
         userScore = 0
+        askQuestion()
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
