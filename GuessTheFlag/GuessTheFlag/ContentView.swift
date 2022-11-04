@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+struct Title: ViewModifier {
+    func body(content: Content) -> some View {
+            content
+            .font(.largeTitle)
+            .foregroundColor(.blue)
+    }
+}
+
+extension View {
+    func titleStyle() -> some View {
+        modifier(Title())
+    }
+}
+
 struct FlagImage: View {
     var flagArray: [String]
     var number: Int
@@ -48,6 +62,8 @@ struct ContentView: View {
                             .foregroundColor(.secondary)
                         Text(countries[correctAnswer])
                             .font(.largeTitle.weight(.semibold))
+                            .modifier(Title())
+                            .titleStyle()
                     }
                     
                     
