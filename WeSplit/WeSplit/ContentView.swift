@@ -61,6 +61,7 @@ struct ContentView: View {
                 // challenge #2
                 Section {
                     Text("Total amount for the check: \(checkAmount + checkAmount / 100 * Double(tipPercentage))")
+                        .foregroundColor(tipPercentage == 0 ? .red : .none)
                 }
                 
                 Section {
