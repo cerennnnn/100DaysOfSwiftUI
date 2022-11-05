@@ -7,29 +7,23 @@
 
 import SwiftUI
 
-struct Title: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-        .font(.largeTitle)
-        .foregroundColor(.white)
-        .padding()
-        .background(.blue)
-        .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
-}
-
-extension View {
-    func titleStyle() -> some View {
-        modifier(Title())
-    }
-}
-
 struct ContentView: View {
+    @State private var selection = 0
     
     var body: some View {
-        Text("Hello, world!")
-            .modifier(Title())
-            .titleStyle()
+        let binding = Binding(
+            get: { selection },
+            set: { selection = $0}
+        )
+        
+        return VStack {
+            Picker("Select a number", selection: $selection) {
+                ForEach(0..<3) {
+                    Text("Item \($0)")
+                }
+            }
+            .pickerStyle(.segmented)
+        }
     }
 }
 
