@@ -101,7 +101,7 @@ struct ContentView: View {
     
     func newRound() {
         numberOfQuestions += 1
-//        random = Int.random(in: 0...2)
+        random = Int.random(in: 0...2)
         didWin.toggle()
         currentChoice = ""
     }
