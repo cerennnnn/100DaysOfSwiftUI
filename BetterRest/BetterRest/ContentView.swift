@@ -19,34 +19,40 @@ struct ContentView: View {
    
     var body: some View {
         NavigationView {
-            VStack {
-                Text("When do you want to wake up?")
-                    .font(.headline)
-                
-                DatePicker("Please enter a time: ", selection: $wakeUp, displayedComponents: .hourAndMinute)
-                    .labelsHidden()
-                
-                Text("Desired amount of sleep:")
-                    .font(.headline)
-                
-                Stepper("\(sleepAmount.formatted() ) hours", value: $sleepAmount, in: 4...12, step: 0.25)
-                
-                Text("Daily Coffee Intake")
-                    .font(.headline)
-                
-                Stepper(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", value: $coffeeAmount, in: 1...20)
+            
+            //            VStack {
+            Form {
+                Section {
+                    Text("When do you want to wake up?")
+                        .font(.headline)
+                    
+                    DatePicker("Please enter a time: ", selection: $wakeUp, displayedComponents: .hourAndMinute)
+                        .labelsHidden()
+                }
+
+                    Text("Desired amount of sleep:")
+                        .font(.headline)
+                    
+                    Stepper("\(sleepAmount.formatted() ) hours", value: $sleepAmount, in: 4...12, step: 0.25)
+                    
+                    Text("Daily Coffee Intake")
+                        .font(.headline)
+                    
+                    Stepper(coffeeAmount == 1 ? "1 cup" : "\(coffeeAmount) cups", value: $coffeeAmount, in: 1...20)
+                    
+                }
+                .navigationTitle("BetterRest")
+//                .padding()
+                .toolbar {
+                    Button("Calculate", action: calculateBedTime)
+                }
+                .alert(alertTitle, isPresented: $showingAlert) {
+                    Button("OK") { }
+                } message: {
+                    Text(alertMessage)
+                }
             }
-            .navigationTitle("BetterRest")
-            .padding()
-            .toolbar {
-                Button("Calculate", action: calculateBedTime)
-            }
-            .alert(alertTitle, isPresented: $showingAlert) {
-                Button("OK") { }
-            } message: {
-                Text(alertMessage)
-            }
-        }
+//        }
     }
     
     func calculateBedTime() {
