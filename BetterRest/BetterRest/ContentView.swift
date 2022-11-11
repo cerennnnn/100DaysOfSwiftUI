@@ -22,7 +22,9 @@ struct ContentView: View {
             
             //            VStack {
             Form {
+                
                 Section {
+
                     Text("When do you want to wake up?")
                         .font(.headline)
                     
@@ -51,12 +53,18 @@ struct ContentView: View {
                 .navigationTitle("BetterRest")
 //                .padding()
                 .toolbar {
-                    Button("Calculate", action: calculateBedTime)
+//                    Button("Calculate", action: calculateBedTime)
                 }
                 .alert(alertTitle, isPresented: $showingAlert) {
                     Button("OK") { }
                 } message: {
                     Text(alertMessage)
+                }.onChange(of: self.coffeeAmount) { _ in
+                    self.calculateBedTime()
+                }.onChange(of: self.sleepAmount) { _ in
+                    self.calculateBedTime()
+                }.onChange(of: self.wakeUp) { _ in
+                    self.calculateBedTime()
                 }
             }
 //        }
