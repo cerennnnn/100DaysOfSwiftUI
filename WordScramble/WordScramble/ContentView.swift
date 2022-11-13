@@ -16,9 +16,15 @@ struct ContentView: View {
     @State private var errorMessage = ""
     @State private var showingError = false
     
+    @State private var score = 0
+    
     var body: some View {
         NavigationView {
             List {
+                Section {
+                    Text("Score: \(score)")
+                }
+                
                 Section {
                     TextField("Enter your word:", text: $newWord)
                         .autocapitalization(.none)
@@ -36,6 +42,11 @@ struct ContentView: View {
             .navigationTitle(rootWord)
             .onSubmit(addNewWord)
             .onAppear(perform: startGame)
+            .toolbar {
+                Button("Start") {
+                    startGame()
+                }
+            }
             .alert(errorTitle, isPresented: $showingError) {
                 Button("OK", role: .cancel) { }
             } message: {
@@ -46,26 +57,41 @@ struct ContentView: View {
     
     func addNewWord() {
         let answer = newWord.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
-        guard answer.count > 0 else { return }
+        guard answer.count > 0  else {
+            return
+        }
         
 //        extra validations come
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original!")
+            score -= 1
             return
         }
         
         guard isPossible(word: answer) else {
             wordError(title: "Word not possible", message: "You can't spell that word from \(rootWord)!")
+            score -= 1
             return
         }
         
         guard isReal(word: answer) else {
             wordError(title: "Word not recognized", message: "You can't just make them up!")
+            score -= 1
             return 
         }
         
+        score += 1
+        
         withAnimation{
-            usedWords.insert(answer, at: 0)
+            if answer.count < 3 {
+                wordError(title: "X", message: "Must be at least 3 characters!")
+                score -= 1
+            } else if answer == rootWord {
+                wordError(title: "X", message: "Must be different from \(rootWord)")
+                score -= 1
+            } else {
+                usedWords.insert(answer, at: 0)
+            }
         }
         newWord = ""
     }
