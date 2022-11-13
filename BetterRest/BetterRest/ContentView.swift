@@ -59,6 +59,7 @@ struct ContentView: View {
                     Button("OK") { }
                 } message: {
                     Text(alertMessage)
+                        .font(.largeTitle)
                 }.onChange(of: self.coffeeAmount) { _ in
                     self.calculateBedTime()
                 }.onChange(of: self.sleepAmount) { _ in
