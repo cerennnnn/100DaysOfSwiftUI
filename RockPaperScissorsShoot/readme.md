@@ -4,3 +4,4 @@ A classic rock-paper-scissors game but in mobile version. If player chooses as i
 
 Animated gif:
 
+![Simulator Screen Recording - iPhone 14 Pro - 2022-11-20 at 23 21 04](https://user-images.githubusercontent.com/97634053/202924425-356af1bc-0a9d-4614-9ecf-7683780ace19.gif)
