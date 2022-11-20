@@ -34,6 +34,7 @@
                     .shadow(radius: 5)
                     .rotation3DEffect(Angle(degrees: rotateAmount), axis: (x: 0, y: 1, z: 0))
                     .opacity(showingScore && number != selectedFlag ? 0.25 : 1.0 )
+                    .animation(showingScore && number != selectedFlag ? .spring() : .easeInOut(duration: 1), value: showingScore)
             }
         }
 
