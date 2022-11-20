@@ -75,27 +75,60 @@ struct ContentView: View {
         if ai == player {
             didWin = false
             playerScore -= 1
-        } else if ai == "🪨" && player == "📃" && status == true {
-            didWin = true
-            playerScore += 1
-        } else if ai == "📃" && player == "✂️" && status == true  {
-            didWin = true
-            playerScore += 1
-        } else if ai == "✂️" && player == "🪨" && status == true {
-            didWin = true
-            playerScore += 1
-        } else if ai == "🪨" && player == "✂️" && status == false{
-            didWin = true
-            playerScore += 1
-        } else if ai == "📃" && player == "🪨" && status == false{
-            didWin = true
-            playerScore += 1
-        } else if ai == "✂️" && player == "📃" && status == false{
-            didWin = true
-            playerScore += 1
-        } else {
-            didWin = false
-            playerScore -= 1
+        }
+        else if ai == "🪨" && status == true {
+            if player == "📃" {
+                didWin = true
+                playerScore += 1
+            } else {
+                didWin = false
+                playerScore -= 1
+            }
+        }
+        else if ai == "📃" && status == true {
+            if player == "✂️" {
+                didWin = true
+                playerScore += 1
+            } else {
+                didWin = false
+                playerScore -= 1
+            }
+        }
+        else if ai == "✂️" && status == true {
+            if player == "🪨" {
+                didWin = true
+                playerScore += 1
+            } else {
+                didWin = false
+                playerScore -= 1
+            }
+        }
+        else if ai == "🪨" && status == false {
+                if player == "✂️" {
+                    didWin = true
+                    playerScore += 1
+                } else {
+                    didWin = false
+                    playerScore -= 1
+                }
+            }
+        else if ai == "📃" && status == false {
+                if player == "🪨" {
+                    didWin = true
+                    playerScore += 1
+                } else {
+                    didWin = false
+                    playerScore -= 1
+                }
+            }
+        else if ai == "✂️" && status == false {
+                if player == "📃" {
+                    didWin = true
+                    playerScore += 1
+                } else {
+                    didWin = false
+                    playerScore -= 1
+                }
         }
     }
     
@@ -109,6 +142,7 @@ struct ContentView: View {
     func resetGame() {
         isFinished = true
         numberOfQuestions = 0
+        playerScore = 0
     }
 }
 
