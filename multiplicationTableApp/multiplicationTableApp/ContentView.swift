@@ -51,7 +51,7 @@ struct ContentView: View {
                     Spacer()
                     
                     Section {
-                        Stepper( multiplicationSelection == 1 ? "\(multiplicationSelection) table" : "\(multiplicationSelection) tables", value: $multiplicationSelection, in: 2...12)
+                        Stepper("\(multiplicationSelection) tables", value: $multiplicationSelection, in: 2...12)
                     }
                 header: {
                     Text("Which multiplication table you want to practice ?")
