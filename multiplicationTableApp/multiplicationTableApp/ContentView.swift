@@ -8,103 +8,152 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var userSelection = 5
-    @State private var multiplicationSelection = 2
-    @State private var correctAnswer = ""
-    @State private var questionsArray = []
-    @State private var isEnable = false
+    @State private var questions = []
+    @State private var answers = [Int]()
     @State private var randomNumber = Int.random(in: 1..<13)
+    @State private var userSelection = 5
+    @State private var tableNumber = 2
+    @State private var playerScore = 0
+    @State private var answer = 0
+    @State private var questionNumber = 0
+    @State private var isGameOn = false
+    @State private var isShowing = false
+    @FocusState private var isKeyboardShowing: Bool
     
+    let animations = ["bear", "buffalo", "chick", "chicken", "cow", "crocodile", "dog", "duck", "elephant", "frog", "giraffe", "goat", "gorilla", "hippo", "horse", "monkey", "moose", "narwhal", "owl", "panda", "parrot", "penguin", "pig", "rabbit", "rhino", "sloth", "snake", "Thumbs", "walrus", "whale", "zebra"].shuffled()
     let numberOfQuestions = [5, 10, 20]
     
     var body: some View {
         NavigationView {
-            VStack {
-                if !isEnable {
+            Group {
+                ZStack {
+                    //                    LinearGradient(gradient: Gradient(colors: [ .white, .blue, .yellow, .red, .purple]),
+                    //                                   startPoint: isGameOn ? .topLeading : .bottomTrailing , endPoint: isGameOn ? .bottomTrailing : .topLeading)
+                    //                        .ignoresSafeArea()
                     
-                    Spacer()
-                    
-                    if multiplicationSelection == 2 {
-                        Image("bear")
-                    } else if multiplicationSelection == 3 {
-                        Image("dog")
-                    } else if multiplicationSelection == 4 {
-                        Image("pig")
-                    } else if multiplicationSelection == 5 {
-                        Image("owl")
-                    } else if multiplicationSelection == 6 {
-                        Image("cow")
-                    } else if multiplicationSelection == 7 {
-                        Image("elephant")
-                    } else if multiplicationSelection == 8 {
-                        Image("frog")
-                    } else if multiplicationSelection == 9 {
-                        Image("giraffe")
-                    } else if multiplicationSelection == 10 {
-                        Image("panda")
-                    } else if multiplicationSelection == 11 {
-                        Image("rabbit")
-                    } else if multiplicationSelection == 12 {
-                        Image("cat")
-                    }
-                    
-                    Spacer()
-                    
-                    Section {
-                        Stepper("\(multiplicationSelection) tables", value: $multiplicationSelection, in: 2...12)
-                    }
-                header: {
-                    Text("Which multiplication table you want to practice ?")
-                }
-                .padding(5)
-                    
-                    Section {
-                        Picker("question number", selection: $userSelection) {
-                            ForEach(numberOfQuestions, id: \.self) { number in
-                                Text("\(number)")
+                    VStack {
+                        if !isGameOn {
+                            
+                            Spacer()
+                            
+                            Image("\(animations.randomElement() ?? "pig")" )
+                                .animation(
+                                    .interpolatingSpring(stiffness: 5, damping: 1)
+                                )
+                            
+                            Spacer()
+                            
+                            Section {
+                                Stepper("\(tableNumber) tables", value: $tableNumber, in: 2...12)
+                                    .padding()
+                            }
+                        header: {
+                            Text("Which table you want to practice ?")
+                        }
+                        .padding(5)
+                        .font(.system(size: 15))
+                        .foregroundColor(Color(.label))
+                            
+                            Section {
+                                Picker("question number", selection: $userSelection) {
+                                    ForEach(numberOfQuestions, id: \.self) { number in
+                                        Text("\(number)")
+                                    }
+                                }
+                                .pickerStyle(.segmented)
+                            } header: {
+                                Text("How many questions do you want to solve ?")
+                            }
+                            .padding(5)
+                            .font(.system(size: 15))
+                            .foregroundColor(Color(.label))
+                            
+                            Spacer()
+                            
+                            Button {
+                                generateQuestion()
+                                isGameOn.toggle()
+                            } label: {
+                                Text("start")
+                            }
+                            .frame(width: 280, height: 50)
+                            .background(.green)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            
+                            Spacer()
+                            Spacer()
+                            
+                        } else {
+                            VStack {
+                                
+                                Spacer()
+                                
+                                Image(animations[Int.random(in: 0..<animations.count)])
+                                    .animation(
+                                        .interpolatingSpring(stiffness: 5, damping: 1)
+                                    )
+                                
+                                Spacer()
+                                
+                                VStack {
+                                    Form {
+                                        ForEach(0..<(answers.count), id: \.self) { num in
+                                        Text("Score: \(playerScore)")
+                                        
+                                        Text("What's \(tableNumber) * \(randomNumber) ?")
+                                            .foregroundColor(.black)
+                                        
+                                        TextField("answer: ", value: $answer, format: .number)
+                                            .focused($isKeyboardShowing)
+                                            .keyboardType(.decimalPad)
+                                            .onAppear {
+                                                generateQuestion()
+                                                    if answers[num] == answer {
+                                                        playerScore += 1
+                                                    } else {
+                                                        playerScore -= 1
+                                                    }
+                                                }
+                                        }
+                                    }
+                                }
+                                Spacer()
                             }
                         }
-                        .pickerStyle(.segmented)
-                    } header: {
-                        Text("How many questions do you want to solve ?")
                     }
-                    
-                    Spacer()
-                    Button {
-                        generateQuestion()
-                        isEnable.toggle()
-                    } label: {
-                        Text("start")
-                    }
-                    .frame(width: 280, height: 50)
-                    .background(.green)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    
-                    Spacer()
-                } else {
-//                    ForEach
-                    Text("What's \(multiplicationSelection) times \(randomNumber)")
-                    
                 }
             } //VStack
+            .toolbar{
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    Button {
+                        isKeyboardShowing = false
+                    } label: {
+                        Text("Submit")
+                    }
+                }
+            }
         } //NavigationView
     }
     
     func generateQuestion() {
-        
-        for number in 1...userSelection {
-            
-            let question = "\(multiplicationSelection) * \(randomNumber)"
-            
-             questionsArray.append(question)
-            
+//        for number in 1...userSelection {
+//            var randomNumber = Int.random(in: 1..<13)
+//            let answer = tableNumber * randomNumber
+            answer = tableNumber * randomNumber
+//            answers.append(answer)
+//            questions.append("\(tableNumber) * \(randomNumber)")
+//
 //            print("random number \(number): \(randomNumber)")
-//            print("\(multiplicationSelection) * \(randomNumber)")
-//            print(Int((multiplicationSelection) * (randomNumber)))
-//            print(questionsArray)
-            
-        }
+//            print("questions array: \(questions)")
+//            print("answers array: \(answers)")
+//        }
+    }
+    
+    func gameOver() {
+        answer = 0
+        playerScore = 0
     }
     
 }
@@ -114,3 +163,25 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
+
+//struct Questions: View {
+//    let answers = [Int]()
+//    let questions = [String]()
+//    let tableNumber: Int
+//    let userSelection: Int
+//
+//    var body: some View {
+//        for number in 1...userSelection {
+//            var randomNumber = Int.random(in: 1..<13)
+//            let answer = tableNumber * randomNumber
+//
+//            answers.append(answer)
+//            questions.append("\(tableNumber) * \(randomNumber)")
+//
+//            print("random number \(number): \(randomNumber)")
+//            print("questions array: \(questions)")
+//            print("answers array: \(answers)")
+//
+//        }
+//    }
+//}
