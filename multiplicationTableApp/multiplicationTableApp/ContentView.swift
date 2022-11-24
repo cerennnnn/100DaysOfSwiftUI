@@ -8,17 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var questions = []
-    @State private var answers = [Int]()
+    
     @State private var randomNumber = Int.random(in: 1..<13)
-    @State private var userSelection = 5
-    @State private var tableNumber = 2
-    @State private var playerScore = 0
+    @State private var questionsCount = 5
+    @State private var selectedTable = 2
+    @State private var playerScore = 1
     @State private var answer = 0
-    @State private var questionNumber = 0
-    @State private var isGameOn = false
+    @State private var questionIndex = 0
+    @State private var isGameOn = true
     @State private var isShowing = false
-    @FocusState private var isKeyboardShowing: Bool
+    @State private var isShowingAlert = false
+    @State private var errorTitle = ""
+    @State private var errorMessage = ""
     
     let animations = ["bear", "buffalo", "chick", "chicken", "cow", "crocodile", "dog", "duck", "elephant", "frog", "giraffe", "goat", "gorilla", "hippo", "horse", "monkey", "moose", "narwhal", "owl", "panda", "parrot", "penguin", "pig", "rabbit", "rhino", "sloth", "snake", "Thumbs", "walrus", "whale", "zebra"].shuffled()
     let numberOfQuestions = [5, 10, 20]
@@ -27,12 +28,8 @@ struct ContentView: View {
         NavigationView {
             Group {
                 ZStack {
-                    //                    LinearGradient(gradient: Gradient(colors: [ .white, .blue, .yellow, .red, .purple]),
-                    //                                   startPoint: isGameOn ? .topLeading : .bottomTrailing , endPoint: isGameOn ? .bottomTrailing : .topLeading)
-                    //                        .ignoresSafeArea()
-                    
                     VStack {
-                        if !isGameOn {
+                        if isGameOn {
                             
                             Spacer()
                             
@@ -44,7 +41,7 @@ struct ContentView: View {
                             Spacer()
                             
                             Section {
-                                Stepper("\(tableNumber) tables", value: $tableNumber, in: 2...12)
+                                Stepper("\(selectedTable) tables", value: $selectedTable, in: 2...12)
                                     .padding()
                             }
                         header: {
@@ -55,11 +52,12 @@ struct ContentView: View {
                         .foregroundColor(Color(.label))
                             
                             Section {
-                                Picker("question number", selection: $userSelection) {
+                                Picker("question number", selection: $questionsCount) {
                                     ForEach(numberOfQuestions, id: \.self) { number in
                                         Text("\(number)")
                                     }
                                 }
+                                .frame(width: 200)
                                 .pickerStyle(.segmented)
                             } header: {
                                 Text("How many questions do you want to solve ?")
@@ -71,7 +69,7 @@ struct ContentView: View {
                             Spacer()
                             
                             Button {
-                                generateQuestion()
+                                generateQuestion(randomNum: randomNumber, for: questionsCount)
                                 isGameOn.toggle()
                             } label: {
                                 Text("start")
@@ -87,75 +85,86 @@ struct ContentView: View {
                         } else {
                             VStack {
                                 
-                                Spacer()
-                                
-                                Image(animations[Int.random(in: 0..<animations.count)])
-                                    .animation(
-                                        .interpolatingSpring(stiffness: 5, damping: 1)
-                                    )
-                                
-                                Spacer()
-                                
                                 VStack {
-                                    Form {
-                                        ForEach(0..<(answers.count), id: \.self) { num in
-                                        Text("Score: \(playerScore)")
-                                        
-                                        Text("What's \(tableNumber) * \(randomNumber) ?")
-                                            .foregroundColor(.black)
-                                        
-                                        TextField("answer: ", value: $answer, format: .number)
-                                            .focused($isKeyboardShowing)
-                                            .keyboardType(.decimalPad)
-                                            .onAppear {
-                                                generateQuestion()
-                                                    if answers[num] == answer {
-                                                        playerScore += 1
-                                                    } else {
-                                                        playerScore -= 1
-                                                    }
-                                                }
+                                    Spacer()
+                                    
+                                    Text("Score: \(playerScore)")
+                                        .font(.title)
+                                    Text("What is \(randomNumber) * \(selectedTable) ?")
+                                        .font(.largeTitle)
+                                    
+                                    TextField("type your answer here..", value: $answer, format: .number)
+                                        .keyboardType(.numberPad)
+                                        .frame(width: 300, height: 35)
+                                        .background(.gray.opacity(0.1))
+                                        .cornerRadius(15)
+                                
+                                    Spacer()
+                                    
+                                    Button {
+                                        isShowingAlert = true
+                                        generateQuestion(randomNum: randomNumber, for: selectedTable)
+                                    } label: {
+                                        VStack {
+                                            Text("Enter")
+                                                .padding()
+                                                .frame(width: 280, height: 50)
+                                                .background(.green)
+                                                .foregroundColor(.white)
+                                                .cornerRadius(10)
                                         }
                                     }
                                 }
-                                Spacer()
+                                .alert(errorTitle, isPresented: $isShowingAlert) {
+                                    if questionIndex != questionsCount {
+                                        Button(errorMessage) {
+                                            randomNumber = Int.random(in: 1..<13)
+                                        }
+                                    } else {
+                                        Button("play again", action: gameOn)
+                                    }
+                                } message: {
+                                    if questionIndex != questionsCount {
+                                        Text("Your score is \(playerScore)")
+                                    } else {
+                                        Text("Your final score is \(playerScore)")
+                                    }
+                                }
+                                .padding(.top, 35)
+                                .padding(.horizontal, 30)
                             }
+                            Spacer()
                         }
                     }
                 }
-            } //VStack
-            .toolbar{
-                ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button {
-                        isKeyboardShowing = false
-                    } label: {
-                        Text("Submit")
-                    }
-                }
             }
-        } //NavigationView
+        } //VStack
+    } //NavigationView
+    
+    func generateQuestion(randomNum: Int, for number: Int) {
+        let multipliedNumber = randomNum * number
+        
+        if questionIndex != questionsCount {
+            if multipliedNumber == answer {
+                errorTitle = "Good job!"
+                errorMessage = "Keep going! 🥳"
+                playerScore += 1
+            } else {
+                errorTitle = "Wrong, the answer is \(multipliedNumber)"
+                errorMessage = "Try a little bit harder! 💪"
+                playerScore -= 1
+            }
+            questionIndex += 1
+        } else {
+            errorTitle = " Game over!"
+            errorMessage = "Tap to play again 🤓"
+        }
     }
     
-    func generateQuestion() {
-//        for number in 1...userSelection {
-//            var randomNumber = Int.random(in: 1..<13)
-//            let answer = tableNumber * randomNumber
-            answer = tableNumber * randomNumber
-//            answers.append(answer)
-//            questions.append("\(tableNumber) * \(randomNumber)")
-//
-//            print("random number \(number): \(randomNumber)")
-//            print("questions array: \(questions)")
-//            print("answers array: \(answers)")
-//        }
+    func gameOn() {
+        selectedTable = 2
+        isGameOn = true
     }
-    
-    func gameOver() {
-        answer = 0
-        playerScore = 0
-    }
-    
 }
 
 struct ContentView_Previews: PreviewProvider {
@@ -163,25 +172,3 @@ struct ContentView_Previews: PreviewProvider {
         ContentView()
     }
 }
-
-//struct Questions: View {
-//    let answers = [Int]()
-//    let questions = [String]()
-//    let tableNumber: Int
-//    let userSelection: Int
-//
-//    var body: some View {
-//        for number in 1...userSelection {
-//            var randomNumber = Int.random(in: 1..<13)
-//            let answer = tableNumber * randomNumber
-//
-//            answers.append(answer)
-//            questions.append("\(tableNumber) * \(randomNumber)")
-//
-//            print("random number \(number): \(randomNumber)")
-//            print("questions array: \(questions)")
-//            print("answers array: \(answers)")
-//
-//        }
-//    }
-//}
