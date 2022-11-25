@@ -4,3 +4,4 @@ This is an edutainment app where kids can practice their multiplication skills. 
 
 ✨ Animated gifs:
 
+![Simulator Screen Recording - iPhone 14 Pro - 2022-11-25 at 11 18 48](https://user-images.githubusercontent.com/97634053/203934486-d93226ef-4681-456f-885b-0051774c9af6.gif)
