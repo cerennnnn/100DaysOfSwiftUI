@@ -1,4 +1,5 @@
 iExpense 💲💳
+
 This app provides a user to track their expenses. User types how much they spend and on another view they can see the amount they spent in both personal and business purposes.
 
 
