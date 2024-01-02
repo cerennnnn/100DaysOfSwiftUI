@@ -42,3 +42,33 @@ print(number.isMultiple(of: 3))
 //Decimal Numbers
 //Double
 let num = 0.1 + 0.2
+
+
+//Bool = true || false
+let filename = "paris.jpg"
+print(filename.hasSuffix(".jpg"))
+
+print(120.isMultiple(of: 12))
+
+var goodDogs = true
+goodDogs.toggle()
+
+var isAuthenticated = true
+!isAuthenticated
+
+//Join strings
+
+//string concetanation
+let people = "Haters"
+let action = "hate"
+let lyric = people + " gonna " + action
+
+//string interpolation
+let name2 = "Taylor"
+let age = 26
+let message = "Hello, my name is \(name2) and I'm \(age) years old."
+
+//Checkpoint #1
+var temp: Double = 5
+let fahrenheitTemp = (temp * 9 ) / 5 + 32
+print("Celcius: \(temp) = Fahrenheit: \(fahrenheitTemp)")
