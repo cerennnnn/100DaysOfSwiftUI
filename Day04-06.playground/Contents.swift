@@ -121,20 +121,6 @@ if transport == .airplane || transport == .helicopter {
     print("I'm going to hire a scooter now!")
 }
 
-//Switch-case
-switch forecast {
-case .sun:
-    print("It should be a nice day.")
-case .rain:
-    print("Pack an umbrella.")
-case .wind:
-    print("Wear something warm")
-case .snow:
-    print("School is cancelled.")
-case .unknown:
-    print("Our forecast generator is broken!")
-}
-
 let place = "Metropolis"
 
 switch place {
@@ -185,4 +171,110 @@ let theme = Theme.dark
 let background = theme == .dark ? "black" : "white"
 print(background)
 
+//Loops
+//for in
+let platforms = ["iOS", "macOS", "tvOS", "watchOS"]
 
+for os in platforms {
+    print("Swift works great on \(os)")
+}
+
+for i in 1...12 {
+    print(" 5 x \(i) is \(5 * i)")
+}
+
+for i in 1...12 {
+    print("The \(i) times table:")
+
+    for j in 1...12 {
+        print("  \(j) x \(i) is \(j * i)")
+    }
+
+    print() //start a new line
+}
+
+for i in 1...5 {
+    print("Counting from 1 through 5: \(i)")
+}
+
+print()
+
+for i in 1..<5 { //up to but excluding the final number
+    print("Counting 1 up to 5: \(i)")
+}
+
+var lyric = "Haters gonna"
+
+for _ in 1...5 {
+    lyric += " hate"
+}
+
+print(lyric)
+
+//while
+var countdown = 10
+
+while countdown > 0 {
+    print("\(countdown)…")
+    countdown -= 1
+}
+
+print("Blast off!")
+
+// create an integer to store our roll
+var roll = 0
+
+// carry on looping until we reach 20
+while roll != 20 {
+    // roll a new dice and print what it was
+    roll = Int.random(in: 1...20)
+    print("I rolled a \(roll)")
+}
+
+// if we're here it means the loop ended – we got a 20!
+print("Critical hit!")
+
+//break & continue
+//continue -> skips the current loop iteration.
+//break -> exits a loop immediately and skips all remaining iterations.
+
+let filenames = ["me.jpg", "work.txt", "sophie.jpg", "logo.psd"]
+
+for filename in filenames {
+    if filename.hasSuffix(".jpg") == false {
+        continue
+    }
+
+    print("Found picture: \(filename)")
+}
+
+let number1 = 4
+let number2 = 14
+var multiples = [Int]()
+
+for i in 1...100_000 {
+    if i.isMultiple(of: number1) && i.isMultiple(of: number2) {
+        multiples.append(i)
+
+        if multiples.count == 10 {
+            break
+        }
+    }
+}
+
+print(multiples)
+
+//Checkpoint #3
+for i in 1...100 {
+    if i.isMultiple(of: 3) && i.isMultiple(of: 5) {
+        print("FizzBuzz")
+    } else {
+        if i.isMultiple(of: 3) {
+            print("Fizz")
+        } else if i.isMultiple(of: 5) {
+            print("Buzz")
+        } else {
+            print(i)
+        }
+    }
+}
