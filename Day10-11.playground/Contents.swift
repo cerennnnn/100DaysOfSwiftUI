@@ -134,3 +134,94 @@ struct Player {
 
 let player = Player(name: "Megan R")
 print(player.number)
+
+//Access Properties
+//By default, Swift’s structs let us access their properties and methods freely
+
+struct BankAccount {
+    private var funds = 0
+    
+    mutating func deposit(amount: Int) {
+        funds += amount
+    }
+    
+    mutating func withdraw(amount: Int) -> Bool {
+        if funds >= amount {
+            funds -= amount
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+var account = BankAccount()
+account.deposit(amount: 100)
+let success = account.withdraw(amount: 200)
+
+if success {
+    print("Withdrew money successfully")
+} else {
+    print("Failed to get the money")
+}
+
+/*
+ private -> don’t let anything outside the struct
+ fileprivate -> don’t let anything outside the current file
+ public -> let anyone, anywhere
+ private(set) -> let anyone read this property, but only let my methods write it.
+ */
+
+struct Office {
+    private var passCode: String
+    var address: String
+    var employees: [String]
+    init(address: String, employees: [String]) {
+        self.address = address
+        self.employees = employees
+        self.passCode = "SEKRIT"
+    }
+}
+let monmouthStreet = Office(address: "30 Monmouth St", employees: ["Paul Hudson"])
+
+//Static properties and methods
+struct School {
+    static var studentCount = 0
+
+    static func add(student: String) {
+        print("\(student) joined the school.")
+        studentCount += 1
+    }
+}
+//Notice the keyword static in there, which means both the studentCount property and add() method belong to the School struct itself, rather than to individual instances of the struct.
+
+School.add(student: "Taylor Swift")
+print(School.studentCount)
+
+//Use Self to refer to the current type.
+//Now we have self and Self, and they mean different things: self refers to the current value of the struct, and Self refers to the current type.
+
+//Checkpoint #6
+struct Car {
+    private let model: String
+    private let numberOfSeats: Int
+    public var currentGear: Int
+    
+    init(model: String, numberOfSeats: Int, currentGear: Int) {
+        self.model = model
+        self.numberOfSeats = numberOfSeats
+        self.currentGear = currentGear
+    }
+    
+    mutating func change(gear: Int) {
+        if gear > currentGear {
+            currentGear = gear
+        } else if gear < currentGear {
+            currentGear = gear
+        }
+    }
+}
+
+var car = Car(model: "Ford", numberOfSeats: 4, currentGear: 2)
+car.currentGear = 1
+print(car.currentGear)
