@@ -48,7 +48,7 @@ extension String {
     }
 }
 
-let trimmed = quote.trimmed()
+//let trimmed = quote.trimmed()
 
 struct Book {
     let title: String
@@ -112,3 +112,95 @@ extension Politician {
         }
     }
 }
+
+//Checkpoint #8
+protocol Building {
+    var rooms: Int { get set }
+    var cost: Int { get set }
+    var estateAgentName: String { get set }
+    
+    func summary() -> String
+}
+
+struct House: Building {
+    var rooms: Int
+    var cost: Int
+    var estateAgentName: String
+
+    func summary() -> String {
+        return "House - Rooms: \(rooms), Cost: $\(cost), Agent: \(estateAgentName)"
+    }
+}
+
+struct Office: Building {
+    var rooms: Int
+    var cost: Int
+    var estateAgentName: String
+
+    func summary() -> String {
+        return "Office - Rooms: \(rooms), Cost: $\(cost), Agent: \(estateAgentName)"
+    }
+}
+
+var myHouse = House(rooms: 3, cost: 300000, estateAgentName: "Dream Homes Realty")
+print(myHouse.summary())
+
+var myOffice = Office(rooms: 10, cost: 1000000, estateAgentName: "Corporate Properties")
+print(myOffice.summary())
+
+//optionals
+//might have a value or might not
+
+var username: String? = nil
+
+if let unwrappedName = username {
+    print("We got a user: \(unwrappedName)")
+} else {
+    print("The optional was empty.")
+}
+
+//guard-let
+func printSquare(of number: Int?) {
+    guard let number = number else {
+        print("Missing input")
+        return
+    }
+
+    print("\(number) x \(number) is \(number * number)")
+}
+
+//nil coalescing
+let captains = [
+    "Enterprise": "Picard",
+    "Voyager": "Janeway",
+    "Defiant": "Sisko"
+]
+
+let new = captains["Serenity"] ?? "N/A"
+
+let tvShows = ["Archer", "Babylon 5", "Ted Lasso"]
+let favorite = tvShows.randomElement() ?? "None"
+
+//optional chaining
+//Optional chaining allows us to say “if the optional has a value inside, unwrap it then…” and we can add more code.
+
+//When we call a function that might throw errors, we either call it using try and handle errors appropriately, or if we’re certain the function will not fail we use try! and accept that if we were wrong our code will crash.
+enum UserError: Error {
+    case badID, networkFailed
+}
+
+func getUser(id: Int) throws -> String {
+    throw UserError.networkFailed
+}
+
+if let user = try? getUser(id: 23) {
+    print("User: \(user)")
+}
+
+//Checkpoint #9
+func randomInt(arr: [Int]?) -> Int {
+    arr?.isEmpty == true ? Int.random(in: 1...100) : arr!.randomElement() ?? 0
+}
+
+let result = randomInt(arr: [1, 2, 3, 4, 5])
+print(result)
