@@ -12,6 +12,7 @@ struct ContentView: View {
     @State private var selectFrom = "hour"
     @State private var selectTo = "hour"
     @State private var unit = 0.0
+    @FocusState private var isFocused: Bool
     
     var convertedUnit: Double {
         var convertedNumber = unit
@@ -36,12 +37,13 @@ struct ContentView: View {
         return convertedNumber
     }
 
-    
     var body: some View {
         NavigationStack {
             Form {
                 Section("Enter a number you want to convert") {
                     TextField("Enter a number you want to convert", value: $unit, format: .number)
+                        .keyboardType(.numberPad)
+                        .focused($isFocused)
                 }
                 
                 Section("Select a unit to convert from") {
@@ -63,6 +65,14 @@ struct ContentView: View {
                 
                 Section {
                     Text(convertedUnit, format: .number)
+                }
+            }
+            .navigationTitle("Converter")
+            .toolbar {
+                if isFocused {
+                    Button("Done") {
+                        isFocused = false
+                    }
                 }
             }
         }
