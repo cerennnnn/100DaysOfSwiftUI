@@ -45,9 +45,10 @@ struct ContentView: View {
                             //flag was tapped
                             flagTapped(number)
                         } label: {
-                            Image(countries[number])
-                                .clipShape(.capsule)
-                                .shadow(radius: 5)
+                            FlagImage(imageName: countries[number])
+//                            Image(countries[number])
+//                                .clipShape(.capsule)
+//                                .shadow(radius: 5)
                         }
                     }
                 }
@@ -94,7 +95,7 @@ struct ContentView: View {
             scoreTitle = "Wrong! That's the flag of \(countries[number])"
         }
         
-        isGameOver = questionNumber == 8 ? true : false
+        isGameOver = questionNumber == 8  ? true : false
         showingScore = isGameOver ? false : true
     }
     
@@ -109,6 +110,16 @@ struct ContentView: View {
         score = 0
         questionNumber = 0
         askQuestion()
+    }
+}
+
+struct FlagImage: View {
+    var imageName: String
+    
+    var body: some View {
+        Image(imageName)
+            .clipShape(.capsule)
+            .shadow(radius: 5)
     }
 }
 
