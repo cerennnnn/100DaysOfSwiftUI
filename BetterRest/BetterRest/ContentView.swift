@@ -9,12 +9,12 @@ import SwiftUI
 import CoreML
 
 struct ContentView: View {
+    
+    let coffeeRange = 1...20
     @State private var wakeUp = ContentView.defaultWakeTime
     @State private var sleepAmount = 8.0
     @State private var coffeeAmount = 1
-    @State private var alertTitle = ""
-    @State private var alertMessage = ""
-    @State private var showingAlert = false
+    @State private var recommendedBedtime = ""
     
     static var defaultWakeTime: Date {
         var components = DateComponents()
@@ -26,38 +26,41 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             Form {
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("When do you want to wake up?")
-                        .font(.headline)
-                    
+                Section("When do you want to wake up?") {
                     DatePicker("Please enter a time", selection: $wakeUp, displayedComponents: .hourAndMinute)
                         .labelsHidden()
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
+                Section("Desired amount of sleep") {
                     Text("Desired amount of sleep")
                         .font(.headline)
                     
                     Stepper("\(sleepAmount.formatted()) hours", value: $sleepAmount, in: 4...12, step: 0.25)
                 }
                 
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("Daily coffee intake")
-                        .font(.headline)
+                Section("Daily coffee intake") {
+                    Picker("Coffee Amount", selection: $coffeeAmount) {
+                        ForEach(coffeeRange, id: \.self) {
+                            Text("\($0) \($0 == 1 ? "cup" : "cups")")
+                        }
+                    }
                 }
                 
-                Stepper("^[\(coffeeAmount) cup](inflect: true)", value: $coffeeAmount, in: 1...20)
+                Section("Recommended bedtime:") {
+                    Text(recommendedBedtime)
+                        .font(.largeTitle)
+                }
             }
-            .padding()
+            .onChange(of: wakeUp, { _, _ in
+                calculateBedTime()
+            })
+            .onChange(of: sleepAmount, { _, _ in
+                calculateBedTime()
+            })
+            .onChange(of: coffeeAmount, { _, _ in
+                calculateBedTime()
+            })
             .navigationTitle("BetterRest")
-            .toolbar {
-                Button("Calculate", action: calculateBedTime)
-            }
-            .alert(alertTitle, isPresented: $showingAlert) {
-                Button("OK") { }
-            } message: {
-                Text(alertMessage)
-            }
         }
     }
     
@@ -73,15 +76,10 @@ struct ContentView: View {
             let prediction = try model.prediction(wake: Int64(Double(hour + minute)), estimatedSleep: sleepAmount, coffee: Int64(Double(coffeeAmount)))
             let sleepTime = wakeUp - prediction.actualSleep
             
-            alertTitle = "Your ideal bedtime is..."
-            alertMessage = sleepTime.formatted(date: .omitted, time: .shortened)
-            
+            recommendedBedtime = sleepTime.formatted(date: .omitted, time: .shortened)
         } catch {
-            alertTitle = "Error"
-            alertMessage = "Sorry, there was a problem calculating your bedtime."
+            print("error")
         }
-        
-        showingAlert = true
     }
 }
 
