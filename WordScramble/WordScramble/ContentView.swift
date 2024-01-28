@@ -14,10 +14,12 @@ struct ContentView: View {
     @State private var errorTitle = ""
     @State private var errorMessage = ""
     @State private var showingError = false
+    @State private var score = 0
     
     var body: some View {
         NavigationStack {
             List {
+                Text("Score: \(score)")
                 Section {
                     TextField("Enter your word:", text: $newWord)
                         .textInputAutocapitalization(.never)
@@ -33,6 +35,17 @@ struct ContentView: View {
                 }
             }
             .navigationTitle(rootWord)
+            .navigationBarItems(trailing:
+                                    HStack {
+                Spacer()
+                Button {
+                    startGame()
+                } label: {
+                    Image(systemName: "arrow.circlepath")
+                }
+            }
+                .padding()
+            )
             .onSubmit {
                 addNewWord()
             }
@@ -52,6 +65,18 @@ struct ContentView: View {
         
         guard answer.count > 0 else { return }
         
+        guard answer != rootWord else {
+            wordError(title: "Try again", message: "Something other than the given word")
+            newWord = ""
+            return
+        }
+        
+        guard answer.count >= 3 else {
+            wordError(title: "Try again", message: "Something more than 3 letters")
+            newWord = ""
+            return
+        }
+        
         guard isOriginal(word: answer) else {
             wordError(title: "Word used already", message: "Be more original!")
             return
@@ -69,11 +94,16 @@ struct ContentView: View {
         
         withAnimation {
             usedWords.insert(answer, at: 0)
+            score += answer.count
         }
+        
         newWord = ""
     }
     
     func startGame() {
+        newWord = ""
+        usedWords = []
+        score = 0
         if let startWordsURL = Bundle.main.url(forResource: "start", withExtension: "txt") {
             if let startWords = try? String(contentsOf: startWordsURL) {
                 let allWords = startWords.components(separatedBy: "\n")
