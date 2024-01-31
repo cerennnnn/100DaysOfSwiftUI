@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var score = 0
     @State private var questionNumber = 0
     @State private var isGameOver = false
+    @State private var selectedIndex = 0
+    @State private var animationAmount = 0.0
     
     var body: some View {
         ZStack {
@@ -44,12 +46,20 @@ struct ContentView: View {
                         Button {
                             //flag was tapped
                             flagTapped(number)
+                            selectedIndex = number
+                            withAnimation(.default) {
+                                animationAmount += 360
+                            }
                         } label: {
                             FlagImage(imageName: countries[number])
 //                            Image(countries[number])
 //                                .clipShape(.capsule)
 //                                .shadow(radius: 5)
                         }
+                        .rotation3DEffect(
+                            .degrees(number == selectedIndex ? animationAmount : -animationAmount),
+                                     axis: (x:0, y: 1, z: 0))
+                        .opacity(number != selectedIndex ? 0.75 : 1)
                     }
                 }
                 .frame(maxWidth: .infinity)
