@@ -55,6 +55,9 @@ struct ContentView: View {
                         Spacer()
                         
                         Text(item.amount, format: .currency(code: Locale.current.currency?.identifier ?? "USD"))
+                            .foregroundStyle(item.amount > 500 ? .red : item.amount > 100 ? .black : .green)
+                            .fontWeight(item.amount > 500 ? .bold : .semibold)
+                            .font(.system(size: item.amount > 500 ? 15 : 17))
                     }
                 }
                 .onDelete(perform: { indexSet in
