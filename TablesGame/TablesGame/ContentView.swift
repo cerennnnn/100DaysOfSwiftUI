@@ -60,7 +60,7 @@ struct ContentView: View {
         gameState = .playing
         questions = generateQuestions()
         currentQuestionIndex = 0
-        userAnswer = ""
+        c = ""
         score = 0 
     }
     
