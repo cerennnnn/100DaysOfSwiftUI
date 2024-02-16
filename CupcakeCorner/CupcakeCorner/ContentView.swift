@@ -7,63 +7,39 @@
 
 import SwiftUI
 
-struct Response: Codable {
-    var results: [Result]
-}
-
-struct Result: Codable {
-    var trackId: Int
-    var trackName: String
-    var collectionName: String
-}
-
 struct ContentView: View {
-    @State private var results = [Result]()
+    @State private var order = Order()
     
     var body: some View {
-        AsyncImage(url: URL(string: "https://hws.dev/img/logo.png"), scale: 3) { phase in
-            if let image = phase.image {
-                image
-                    .resizable()
-                    .scaledToFit()
-            } else if phase.error != nil {
-                Text("There was an error loading the image.")
-            } else {
-                ProgressView()
-            }
-        }
-        .frame(width: 200, height: 200)
-            
-        
-        List(results, id: \.trackId)  { item in
-            VStack(alignment: .leading) {
-                Text(item.trackName)
-                    .font(.headline)
+        NavigationStack {
+            Form {
+                Section {
+                    Picker("Select your cake type", selection: $order.type) {
+                        ForEach(Order.types.indices, id: \.self) {
+                            Text(Order.types[$0])
+                        }
+                    }
+                    
+                    Stepper("Number of cakes: \(order.quantity)", value: $order.quantity, in: 3...20)
+                }
                 
+                Section {
+                    Toggle("Any special requests?", isOn: $order.specialRequestEnabled.animation())
+                    
+                    if order.specialRequestEnabled{
+                        Toggle("Add extra frosting", isOn: $order.extraFrosting)
+                        
+                        Toggle("Add extra sprinkles", isOn: $order.addSprinkles)
+                    }
+                }
                 
-                Text(item.collectionName)
+                Section {
+                    NavigationLink("Delivery Details") {
+                        AddressView(order: order)
+                    }
+                }
             }
-        }
-        .task {
-//            await loadData()
-        }
-    }
-    
-    
-    func loadData() async {
-        guard let url = URL(string: "https://itunes.apple.com/search?term=taylor+swift&entity=song") else {
-            print("Invalid URL")
-            return
-        }
-        
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            //more code here
-            if let decodedResponse = try? JSONDecoder().decode(Response.self, from: data) {
-                results = decodedResponse.results
-            }
-        } catch {
-            print("Invalid data.")
+            .navigationTitle("Cupcake Corner")
         }
     }
 }
