@@ -10,6 +10,7 @@ import SwiftUI
 struct CheckoutView: View {
     var order: Order
     
+    @State private var buttonTitle = "Thank You"
     @State private var confirmationMessage = ""
     @State private var showingConfirmation = false
     
@@ -39,7 +40,7 @@ struct CheckoutView: View {
         .navigationTitle("Check out")
         .navigationBarTitleDisplayMode(.inline)
         .scrollBounceBehavior(.basedOnSize)
-        .alert("Thank You!", isPresented: $showingConfirmation) {
+        .alert(buttonTitle, isPresented: $showingConfirmation) {
             Button("OK") { }
         } message: {
             Text(confirmationMessage)
@@ -49,13 +50,13 @@ struct CheckoutView: View {
     func placeOrder() async {
         guard let encoded = try? JSONEncoder().encode(order) else {
             print("Failed to encode order.")
-            return 
+            return
         }
         
         let url = URL(string: "https://reqres.in/api/cupcakes")!
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-type")
-        request.httpMethod = "POST"
+//        request.httpMethod = "POST"
         
         do {
             let (data, _) = try await URLSession.shared.upload(for: request, from: encoded)
@@ -67,6 +68,9 @@ struct CheckoutView: View {
             
         } catch {
             print("Check out failed: \(error.localizedDescription)")
+            confirmationMessage = "Failed to encode order. Please check your internet connection."
+            buttonTitle = "Oops!"
+            showingConfirmation = true
         }
     }
 }
