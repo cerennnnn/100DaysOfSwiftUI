@@ -12,6 +12,8 @@
 		33E38F992B88959A00D267E8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33E38F982B88959A00D267E8 /* Assets.xcassets */; };
 		33E38F9C2B88959A00D267E8 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33E38F9B2B88959A00D267E8 /* Preview Assets.xcassets */; };
 		33E38FA32B8919A700D267E8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E38FA22B8919A700D267E8 /* User.swift */; };
+		33E38FA72B8A3C7B00D267E8 /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E38FA62B8A3C7B00D267E8 /* UsersView.swift */; };
+		33E38FA92B8A44DC00D267E8 /* Job.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33E38FA82B8A44DC00D267E8 /* Job.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,8 @@
 		33E38F982B88959A00D267E8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		33E38F9B2B88959A00D267E8 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		33E38FA22B8919A700D267E8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		33E38FA62B8A3C7B00D267E8 /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
+		33E38FA82B8A44DC00D267E8 /* Job.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Job.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +59,9 @@
 			children = (
 				33E38F942B88959700D267E8 /* SwiftDataProjectApp.swift */,
 				33E38F962B88959700D267E8 /* ContentView.swift */,
+				33E38FA82B8A44DC00D267E8 /* Job.swift */,
 				33E38FA22B8919A700D267E8 /* User.swift */,
+				33E38FA62B8A3C7B00D267E8 /* UsersView.swift */,
 				33E38F982B88959A00D267E8 /* Assets.xcassets */,
 				33E38F9A2B88959A00D267E8 /* Preview Content */,
 			);
@@ -143,6 +149,8 @@
 				33E38F972B88959700D267E8 /* ContentView.swift in Sources */,
 				33E38F952B88959700D267E8 /* SwiftDataProjectApp.swift in Sources */,
 				33E38FA32B8919A700D267E8 /* User.swift in Sources */,
+				33E38FA72B8A3C7B00D267E8 /* UsersView.swift in Sources */,
+				33E38FA92B8A44DC00D267E8 /* Job.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
